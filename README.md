@@ -13,85 +13,106 @@ CREATE TABLE Curso (
 	nome VARCHAR(50)
 );
 
-CREATE TABLE Diciplina(
+CREATE TABLE Disciplina(
 	id VARCHAR(20) PRIMARY KEY, 
 	nome VARCHAR(50),
-    idCurso VARCHAR(50),
-    FOREIGN KEY (idCurso) REFERENCES Curso(id)
+    	idCurso VARCHAR(50),
+     	semestre INTEGER,
+    	FOREIGN KEY (idCurso) REFERENCES Curso(id)
 );
 
 CREATE TABLE Campus(
 	id VARCHAR(20) PRIMARY KEY, 
 	nome VARCHAR(50),
-    idCurso VARCHAR(100)
+    	idCurso VARCHAR(100)
 );
 
 CREATE TABLE Aluno(
 	ra VARCHAR(20) PRIMARY KEY,
-    imagem VARCHAR(100),
+    	imagem VARCHAR(100),
 	nome VARCHAR(90), 
 	cpf VARCHAR(11), 
 	email VARCHAR(50), 
-    endereco VARCHAR(50), 
-    telefone VARCHAR(20), 
+    	endereco VARCHAR(50), 
+    	telefone VARCHAR(20), 
 	dataNascimento VARCHAR(15), 
-    uf VARCHAR(15), 
-    municipio VARCHAR(20), 
-    idCurso VARCHAR(50),
-    periodo VARCHAR(20),
-    FOREIGN KEY (idCurso) REFERENCES Curso(id)
+    	uf VARCHAR(15), 
+    	municipio VARCHAR(20), 
+    	idCurso VARCHAR(50),
+    	periodo VARCHAR(20),
+    	FOREIGN KEY (idCurso) REFERENCES Curso(id)
 );
 
 CREATE TABLE ItemBoletim(
 	id VARCHAR(80) PRIMARY KEY,
-	idDiciplina VARCHAR(100),
-    nota DOUBLE,
-    falta INTEGER,
-	FOREIGN KEY (idDiciplina) REFERENCES Diciplina(id)
+	idDisciplina VARCHAR(100),
+    	nota DOUBLE,
+    	falta INTEGER,
+	FOREIGN KEY (idDisciplina) REFERENCES Disciplina(id)
 );
 
 -- CURSOS
 INSERT INTO Curso VALUES ("0001", "Analise e Desenvolvimento de Sistemas");
 INSERT INTO Curso VALUES ("0002", "Logistica");
-INSERT INTO Curso VALUES ("0003", "Veterinario");
-INSERT INTO Curso VALUES ("0004", "Artes");
 
 -- CAMPUS
 
 INSERT INTO Campus VALUES("1000", "Guarulhos", "0001;0002");
-INSERT INTO Campus VALUES("2000", "Campinas", "0001;0002;0003;0004");
-INSERT INTO Campus VALUES("3000", "Itaquaquecetuba", "0003;0004");
 
 -- DICIPLINAS
 
-INSERT INTO Diciplina VALUES("1010", "Programação Orientada a Objetos (POO)", "0001");
-INSERT INTO Diciplina VALUES("1011", "Dispositivos Moveis", "0001");
-INSERT INTO Diciplina VALUES("1012", "Engenharia de Software", "0001");
-INSERT INTO Diciplina VALUES("1013", "Banco de Dados", "0001");
-INSERT INTO Diciplina VALUES("1014", "Calculo", "0001");
-INSERT INTO Diciplina VALUES("1015", "Redes", "0001");
-INSERT INTO Diciplina VALUES("1016", "Logica de Programação", "0001");
+INSERT INTO Disciplina VALUES("1010", "Programação Orientada a Objetos (POO)", "0001");
+INSERT INTO Disciplina VALUES("AAG-001", "Administração Geral", "0001", 1);
+INSERT INTO Disciplina VALUES("IAL-002", "Algoritmos e lógica de programação", "0001", 1);
+INSERT INTO Disciplina VALUES("IAC-001", "Arquitetura e Organização de Computadores", "0001", 1);
+INSERT INTO Disciplina VALUES("LIN-100", "Inglês I", "0001", 1);
+INSERT INTO Disciplina VALUES("IHW-100", "Laboratório de Hardware", "0001", 1);
+INSERT INTO Disciplina VALUES("MMD-001", "Matemática discreta", "0001", 1);
 
-INSERT INTO Diciplina VALUES("1020", "Calculo", "0002");
-INSERT INTO Diciplina VALUES("1021", "Economia", "0002");
-INSERT INTO Diciplina VALUES("1022", "Contabilidade", "0002");
-INSERT INTO Diciplina VALUES("1023", "Sustentabilidade", "0002");
-INSERT INTO Diciplina VALUES("1024", "Sistemas de Informacao", "0002");
-INSERT INTO Diciplina VALUES("1025", "Organizacao de galpoes", "0002");
-INSERT INTO Diciplina VALUES("1026", "Aeroportuaria", "0002");
+INSERT INTO Disciplina VALUES("ILM-001", "Programação em Microinformática", "0001", 1);
 
-INSERT INTO Diciplina VALUES("1030", "Biologia", "0003");
-INSERT INTO Diciplina VALUES("1031", "Dar a patinha", "0003");
-INSERT INTO Diciplina VALUES("1032", "Rolar", "0003");
-INSERT INTO Diciplina VALUES("1033", "Vacinar", "0003");
-INSERT INTO Diciplina VALUES("1034", "Tosar", "0003");
-INSERT INTO Diciplina VALUES("1035", "Nutricao", "0003");
-INSERT INTO Diciplina VALUES("1036", "Dar banho", "0003");
+INSERT INTO Disciplina VALUES("MCA-002", "Calculo", "0001", 2);
+INSERT INTO Disciplina VALUES("LPO-001", "Comunicação e Expressão", "0001", 2);
+INSERT INTO Disciplina VALUES("CCG-001", "Contabilidade", "0001", 2);
+INSERT INTO Disciplina VALUES("IES-100", "Engenharia de Software I", "0001", 2);
+INSERT INTO Disciplina VALUES("LIN-200", "Inglês II", "0001", 2);
+INSERT INTO Disciplina VALUES("ILP-010", "Linguagem de Programação", "0001", 2);
+INSERT INTO Disciplina VALUES("ISI-002", "Sistemas de informação", "0001", 2);
 
-INSERT INTO Diciplina VALUES("1040", "GESTALT", "0004");
-INSERT INTO Diciplina VALUES("1041", "Desenho", "0004");
-INSERT INTO Diciplina VALUES("1042", "Musica", "0004");
-INSERT INTO Diciplina VALUES("1043", "Danca", "0004");
-INSERT INTO Diciplina VALUES("1044", "Sobrevivencia Urbana", "0004");
-INSERT INTO Diciplina VALUES("1045", "Abstracao", "0004");
-INSERT INTO Diciplina VALUES("1046", "Design", "0004");
+INSERT INTO Disciplina VALUES("CEF-100", "Economia e Finanças", "0001", 3);
+INSERT INTO Disciplina VALUES("IES-200", "Engenharia de Software II", "0001", 3);
+INSERT INTO Disciplina VALUES("MET-100", "Estatistica Aplicada", "0001", 3);
+INSERT INTO Disciplina VALUES("IED-001", "Estrutura de dados", "0001", 3);
+INSERT INTO Disciplina VALUES("LIN-300", "Inglês III", "0001", 3);
+INSERT INTO Disciplina VALUES("IHC-001", "Interação Humano Computador", "0001", 3);
+INSERT INTO Disciplina VALUES("ISO-100", "Sistemas Operacionais I", "0001", 3);
+INSERT INTO Disciplina VALUES("HST-002", "Sociedade e Tecnologia", "0001", 3);
+
+INSERT INTO Disciplina VALUES("IBD-002", "Banco de Dados", "0001", 4);
+INSERT INTO Disciplina VALUES("IES-300", "Engenharia de Software III", "0001", 4);
+INSERT INTO Disciplina VALUES("TTG-001", "Metodologia de Pesquisa", "0001", 4);
+INSERT INTO Disciplina VALUES("ILP-007", "Programação Orientada a Objetos", "0001", 4);
+INSERT INTO Disciplina VALUES("LIN-007", "Inglês IV", "0001", 4);
+INSERT INTO Disciplina VALUES("ILP-507", "Interação Humano Computador", "0001", 4);
+INSERT INTO Disciplina VALUES("ISO-200", "Sistemas Operacionais II", "0001", 4);
+
+INSERT INTO Disciplina VALUES("LIN-500", "Inglês V", "0001", 5);
+INSERT INTO Disciplina VALUES("IBD-100", "Laborátorio de Banco de Dados", "0001", 5);
+INSERT INTO Disciplina VALUES("IES-301", "Laborátorio de Engenharia de Software", "0001", 5);
+INSERT INTO Disciplina VALUES("MPL-001", "Programação Linear e Aplicação", "0001", 5);
+INSERT INTO Disciplina VALUES("IRC-008", "Redes de Computadores", "0001", 5);
+INSERT INTO Disciplina VALUES("ISG-003", "Segurança da informação", "0001", 5);
+
+INSERT INTO Disciplina VALUES("LIN-600", "Inglês VI", "0001", 6);
+INSERT INTO Disciplina VALUES("CEE-002", "Empreendedorismo", "0001", 6);
+INSERT INTO Disciplina VALUES("AGR-101", "Gestão de Equipes", "0001", 6);
+INSERT INTO Disciplina VALUES("AGO-005", "Gestão de Projetos", "0001", 6);
+INSERT INTO Disciplina VALUES("ITI-003", "Governança de TI", "0001", 6);
+INSERT INTO Disciplina VALUES("IIA-002", "Inteligência Artificial", "0001", 6);
+
+INSERT INTO Disciplina VALUES("1040", "GESTALT", "0002", 1);
+INSERT INTO Disciplina VALUES("1041", "Desenho", "0002", 2);
+INSERT INTO Disciplina VALUES("1042", "Musica", "0002", 3);
+INSERT INTO Disciplina VALUES("1043", "Danca", "0002", 4);
+INSERT INTO Disciplina VALUES("1044", "Sobrevivencia Urbana", "0002", 5);
+INSERT INTO Disciplina VALUES("1045", "Abstracao", "0002", 6);
