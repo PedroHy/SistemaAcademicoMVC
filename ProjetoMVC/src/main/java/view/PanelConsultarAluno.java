@@ -17,7 +17,6 @@ public class PanelConsultarAluno extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel iconSair;
-	private JLabel iconSair_1;
 	private JLabel iconImage;
 	private JLabel lblRaOuCpf;
 	private JTextField textRaCpf;
@@ -72,11 +71,6 @@ public class PanelConsultarAluno extends JPanel {
 		iconSair.setBounds(1014, 24, 24, 24);
 		add(iconSair);
 		setLayout(null);
-		
-		iconSair_1 = new JLabel("");
-		iconSair_1.setIcon(new ImageIcon(PanelConsultarAluno.class.getResource("/icon/btnFechar.png")));
-		iconSair_1.setBounds(1004, 35, 24, 24);
-		add(iconSair_1);
 		
 		iconImage = new JLabel("");
 		iconImage.setEnabled(false);
@@ -240,10 +234,12 @@ public class PanelConsultarAluno extends JPanel {
 		add(btnConsultar);
 		
 		comboBox = new JComboBox();
+		comboBox.setEnabled(false);
 		comboBox.setBounds(176, 498, 684, 33);
 		add(comboBox);
 		
 		comboBox_1 = new JComboBox();
+		comboBox_1.setEnabled(false);
 		comboBox_1.setBounds(176, 545, 684, 33);
 		add(comboBox_1);
 

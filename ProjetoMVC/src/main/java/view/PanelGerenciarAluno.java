@@ -227,25 +227,30 @@ public class PanelGerenciarAluno extends JPanel {
 		add(btnExcluir);
 		
 		rdbMatutino = new JRadioButton("Matutino");
+		rdbMatutino.setEnabled(false);
 		rdbMatutino.setFont(new Font("Malgun Gothic", Font.PLAIN, 15));
 		rdbMatutino.setBounds(186, 571, 89, 23);
 		add(rdbMatutino);
 		
 		rdbVespertino = new JRadioButton("Vespertino");
+		rdbVespertino.setEnabled(false);
 		rdbVespertino.setFont(new Font("Malgun Gothic", Font.PLAIN, 15));
 		rdbVespertino.setBounds(292, 573, 109, 23);
 		add(rdbVespertino);
 		
 		rdbNoturno = new JRadioButton("Noturno");
+		rdbNoturno.setEnabled(false);
 		rdbNoturno.setFont(new Font("Malgun Gothic", Font.PLAIN, 15));
 		rdbNoturno.setBounds(417, 573, 109, 23);
 		add(rdbNoturno);
 		
 		comboBox = new JComboBox();
+		comboBox.setEnabled(false);
 		comboBox.setBounds(186, 479, 684, 33);
 		add(comboBox);
 		
 		comboBox_1 = new JComboBox();
+		comboBox_1.setEnabled(false);
 		comboBox_1.setBounds(186, 522, 684, 33);
 		add(comboBox_1);
 

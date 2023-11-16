@@ -25,7 +25,6 @@ public class TelaAcademica extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
-	PanelCadastrarNotas cadastrarNotas;
 	PanelCadastroDeAluno cadastrarAlunos;
 	PanelConsultarAluno consultarAluno;
 	PanelGerenciarAluno gerenciarAluno;
@@ -75,7 +74,6 @@ public class TelaAcademica extends JFrame {
 		
 		
 		//Chamando Panels
-		cadastrarNotas = new PanelCadastrarNotas();
 		cadastrarAlunos = new PanelCadastroDeAluno ();
 		consultarAluno= new PanelConsultarAluno ();
 		gerenciarAluno = new PanelGerenciarAluno();
@@ -100,7 +98,6 @@ public class TelaAcademica extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 
 				//Desabilitando Panels
-				cadastrarNotas.setVisible(false);
 				cadastrarAlunos.setVisible(false);  
 				consultarAluno.setVisible(false);
 				gerenciarAluno.setVisible(false);
@@ -129,7 +126,6 @@ public class TelaAcademica extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//Desabilitando Panels
-				cadastrarNotas.setVisible(false);
 				cadastrarAlunos.setVisible(false);  
 				consultarAluno.setVisible(false);
 				gerenciarAluno.setVisible(false);
@@ -163,7 +159,6 @@ public class TelaAcademica extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 
 				//Desabilitando Panels
-				cadastrarNotas.setVisible(false);
 				cadastrarAlunos.setVisible(false);  
 				consultarAluno.setVisible(false);
 				gerenciarAluno.setVisible(false);
@@ -185,44 +180,13 @@ public class TelaAcademica extends JFrame {
 		textGerenciar.setForeground(new Color(255, 255, 255));
 		textGerenciar.setFont(new Font("Malgun Gothic", Font.BOLD, 12));
 		
-		JLabel textCadastrarNotasFaltas = new JLabel("Cadastrar Notas e Faltas");
-		
-		textCadastrarNotasFaltas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				//Desabilitando Panels
-				cadastrarNotas.setVisible(false);
-				cadastrarAlunos.setVisible(false);  
-				consultarAluno.setVisible(false);
-				gerenciarAluno.setVisible(false);
-				gerenciarNotas.setVisible(false);
-				PanelHome.setVisible(false);
-
-				//Limpando BorderLayout Center
-				BorderLayout layout = (BorderLayout)contentPane.getLayout();
-				remove(layout.getLayoutComponent(BorderLayout.CENTER));
-				
-				//PanelCadastrarNotas 
-				getContentPane().add(cadastrarNotas, BorderLayout.CENTER);
-				cadastrarNotas.setVisible(true);
-
-			}
-		});
-		
-		textCadastrarNotasFaltas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		textCadastrarNotasFaltas.setHorizontalAlignment(SwingConstants.CENTER);
-		textCadastrarNotasFaltas.setForeground(new Color(255, 255, 255));
-		textCadastrarNotasFaltas.setFont(new Font("Malgun Gothic", Font.BOLD, 12));
-		
-		JLabel textGerenciarNotasFaltas = new JLabel("Gerenciar Notas e Faltas");
+		JLabel textGerenciarNotasFaltas = new JLabel("Notas e Faltas");
 		
 		textGerenciarNotasFaltas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
 				//Desabilitando Panels
-				cadastrarNotas.setVisible(false);
 				cadastrarAlunos.setVisible(false);  
 				consultarAluno.setVisible(false);
 				gerenciarAluno.setVisible(false);
@@ -252,7 +216,6 @@ public class TelaAcademica extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 
 				//Desabilitando Panels
-				cadastrarNotas.setVisible(false);
 				cadastrarAlunos.setVisible(false);  
 				consultarAluno.setVisible(false);
 				gerenciarAluno.setVisible(false);
@@ -284,13 +247,9 @@ public class TelaAcademica extends JFrame {
 							.addGroup(gl_MenuLateral.createParallelGroup(Alignment.LEADING)
 								.addComponent(textCadastrar, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textGerenciar)
-								.addComponent(textConsultar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(textHome, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_MenuLateral.createParallelGroup(Alignment.TRAILING)
-							.addComponent(textGerenciarNotasFaltas)
-							.addGroup(Alignment.LEADING, gl_MenuLateral.createSequentialGroup()
-								.addGap(11)
-								.addComponent(textCadastrarNotasFaltas))))
+								.addComponent(textConsultar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textGerenciarNotasFaltas)))
+						.addComponent(textHome, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(22, Short.MAX_VALUE))
 		);
 		gl_MenuLateral.setVerticalGroup(
@@ -305,10 +264,8 @@ public class TelaAcademica extends JFrame {
 					.addGap(18)
 					.addComponent(textConsultar)
 					.addGap(18)
-					.addComponent(textCadastrarNotasFaltas)
-					.addGap(18)
 					.addComponent(textGerenciarNotasFaltas)
-					.addContainerGap(573, Short.MAX_VALUE))
+					.addContainerGap(602, Short.MAX_VALUE))
 		);
 		MenuLateral.setLayout(gl_MenuLateral);
 		MenuLateral.setSize(242,832);
@@ -359,9 +316,7 @@ public class TelaAcademica extends JFrame {
 		iconSair.setBounds(1014, 21, 24, 24);
 		PanelHome.add(iconSair);
 		
-	
-
-	        
+   
 			
 	}
 }
