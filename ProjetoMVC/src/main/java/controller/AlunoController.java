@@ -3,29 +3,33 @@ package controller;
 import java.util.ArrayList;
 
 import dao.AlunoDAO;
+import dao.DisciplinaDao;
+import dao.ItemBoletimDAO;
 import model.Aluno;
+import model.Disciplina;
 import model.ItemBoletim;
 
 public class AlunoController {
-
+	// Edita um aluno já criado no banco de dados
 	public void salvar(String ra, String image, String cpf, String nome, String email, String endereco, String telefone,
-			String dataNascimento, String uf, String municipio, String idCurso, String periodo) {
+			String dataNascimento, String uf, String municipio, String idCurso, String periodo) throws Exception {
 
-		Aluno aluno = new Aluno(ra, image, cpf, nome, email, endereco, telefone,
-				dataNascimento, uf, municipio, idCurso, periodo);
+		Aluno aluno = new Aluno(ra, image, cpf, nome, email, endereco, telefone, dataNascimento, uf, municipio, idCurso,
+				periodo);
 
 		try {
 			AlunoDAO dao = new AlunoDAO();
 
 			dao.atualizar(aluno);
 		} catch (Exception err) {
-			// Erro
+			throw new Exception(err);
 		}
 	}
 
+	// Cria um novo aluno no banco de dados
 	public void cadastrar(String ra, String image, String cpf, String nome, String email, String endereco,
-			String telefone,
-			String dataNascimento, String uf, String municipio, String idCurso, String periodo) {
+			String telefone, String dataNascimento, String uf, String municipio, String idCurso, String periodo)
+			throws Exception {
 
 		Aluno aluno = new Aluno(ra, image, cpf, nome, email, endereco, telefone,
 				dataNascimento, uf, municipio, idCurso, periodo);
@@ -35,35 +39,49 @@ public class AlunoController {
 
 			dao.cadastrar(aluno);
 		} catch (Exception err) {
-			// Erro
+			throw new Exception(err);
 		}
 
-		// criar boletim com Ra do aluno
+		// Cria os ItemBoletins zerados no banco de dados
+		DisciplinaDao disciplinaDao = new DisciplinaDao();
+		ArrayList<Disciplina> disciplinas = disciplinaDao.getDisciplinas(idCurso);
+		for (int i = 0; i < disciplinas.size(); i++) {
+			ItemBoletim item = new ItemBoletim(ra, disciplinas.get(i).getId(), 0.0, 0);
+			try {
+				ItemBoletimDAO itemDao = new ItemBoletimDAO();
+				itemDao.newItem(item);
+			} catch (Exception err) {
+				throw new Exception(err);
+			}
+		}
 	}
 
-	public void excluir(String ra) {
+	public void excluir(String ra) throws Exception {
 		try {
 			AlunoDAO dao = new AlunoDAO();
 
 			dao.deletar(ra);
 		} catch (Exception err) {
-			// Erro
+			throw new Exception(err);
 		}
 
-		// excluir boletim
+		// Excluir boletins do banco relacioados ao aluno
+		try {
+			ItemBoletimDAO itemDao = new ItemBoletimDAO();
+			itemDao.deleteItemBoletim(ra);
+		} catch (Exception err) {
+			throw new Exception(err);
+		}
 	}
 
-	public Aluno consultar(String ra) {
-		Aluno aluno;
-
+	public Aluno consultar(String ra) throws Exception {
 		try {
 			AlunoDAO dao = new AlunoDAO();
 
-			aluno = dao.getAluno(ra);
+			Aluno aluno = dao.getAluno(ra);
 			return aluno;
 		} catch (Exception err) {
-			// Erro
-			return new Aluno();
+			throw new Exception(err);
 		}
 	}
 
@@ -72,29 +90,26 @@ public class AlunoController {
 		// estudar como fazer PDF
 	}
 
-	public void adicionarItemBoletim(String raAluno, String idDiciplina, Double nota, Integer faltas) {
-		// O id do item boletim é o mesmo que o de aluno certo?
-		String id = raAluno;
-		ItemBoletim item = new ItemBoletim(id, idDiciplina, nota, faltas);
+	public void editarItemBoletim(String raAluno, String idDiciplina, Double nota, Integer faltas) throws Exception {
+		ItemBoletim item = new ItemBoletim(raAluno, idDiciplina, nota, faltas);
 
-		// salvar item no BD
+		try {
+			ItemBoletimDAO itemDao = new ItemBoletimDAO();
+			itemDao.editarItemBoletim(item);
+		} catch (Exception err) {
+			throw new Exception(err);
+		}
 	}
 
-	public void editarItemBoletim(String nomeAluno, String raAluno, Integer semestre, String diciplina, Double nota,
-			Integer faltas) {
-		// localizar item do boletim pelo ra do aluno
-		// atualizar dados
-	}
+	public ItemBoletim consultarItemBoletim(String raAluno, String idDiciplina) throws Exception {
+		ItemBoletim item;
 
-	public ArrayList<ItemBoletim> consultarTodosItensBoletim(String ra) {
-		// trazer todos os itens do boletim baseado em aluno
-		return new ArrayList<ItemBoletim>();
-	}
-
-	public ItemBoletim consultarItemBoletim(String raAluno, Integer semestre, String diciplina) {
-
-		String id = raAluno + diciplina + semestre.toString();
-		// localizar item boletim
-		return new ItemBoletim();
+		try {
+			ItemBoletimDAO itemDao = new ItemBoletimDAO();
+			item = itemDao.getItemBoletim(raAluno, idDiciplina);
+			return item;
+		} catch (Exception err) {
+			throw new Exception(err);
+		}
 	}
 }
