@@ -7,7 +7,7 @@ import model.ItemBoletim;
 
 public class GenerateBoletim{
      
-     public GenerateBoletim(String ra, String nome, String curso, String periodo, String campus) throws IOException {
+     public GenerateBoletim(String ra, String nome, String curso, String periodo, String campus, ArrayList<ItemBoletim> itens) throws IOException {
     	 String fileName = ra+nome;
     	 OutputStream os = new FileOutputStream("/boletins/"+fileName+".html"); // nome do arquivo que será escrito
     	 Writer wr = new OutputStreamWriter(os); // criação de um escritor
@@ -15,7 +15,6 @@ public class GenerateBoletim{
   
     	 
     	 //itemBoletim
-    	 
     	 
     	 ArrayList<ItemBoletim> semester1 = new ArrayList<ItemBoletim>();
     	 ArrayList<ItemBoletim> semester2 = new ArrayList<ItemBoletim>();
