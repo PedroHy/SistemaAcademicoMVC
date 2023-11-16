@@ -37,6 +37,7 @@ public class DisciplinaDao {
                 d.setId(rs.getString("id"));
                 d.setIdCurso(rs.getString("idCurso"));
                 d.setNome(rs.getString("nome"));
+                d.setSemestre(rs.getInt("semestre"));
 
                 disciplinas.add(d);
             }

@@ -4,6 +4,7 @@ public class Disciplina {
     private String id;
     private String nome;
     private String idCurso;
+    private Integer semestre;
 
     public Disciplina() {
     }
@@ -37,4 +38,13 @@ public class Disciplina {
     public void setIdCurso(String value) {
         this.idCurso = value;
     }
+
+	public Integer getSemestre() {
+		return semestre;
+	}
+
+	public void setSemestre(Integer semestre) {
+		this.semestre = semestre;
+	}
+    
 }
