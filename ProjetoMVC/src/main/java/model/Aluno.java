@@ -3,7 +3,7 @@ package model;
 public class Aluno {
 	//attrs
 	private String ra;
-	private String image; 
+	private String imagem; 
 	private String cpf;
 	private String nome;
 	private String email;
@@ -17,11 +17,11 @@ public class Aluno {
 	
 	//constructors
 	public Aluno() {}
-	public Aluno(String ra, String image, String cpf, String nome, String email, String endereco, String telefone,
+	public Aluno(String ra, String imagem, String cpf, String nome, String email, String endereco, String telefone,
 			String dataNascimento, String uf, String municipio, String idCurso, String periodo) {
 		super();
 		this.ra = ra;
-		this.image = image;
+		this.imagem = imagem;
 		this.cpf = cpf;
 		this.nome = nome;
 		this.email = email;
@@ -41,11 +41,11 @@ public class Aluno {
 	public void setRa(String ra) {
 		this.ra = ra;
 	}
-	public String getImage() {
-		return image;
+	public String getImagem() {
+		return imagem;
 	}
-	public void setImage(String image) {
-		this.image = image;
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
 	}
 	public String getCpf() {
 		return cpf;

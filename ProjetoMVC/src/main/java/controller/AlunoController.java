@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import dao.AlunoDAO;
 import model.Aluno;
 import model.ItemBoletim;
 
@@ -14,8 +15,13 @@ public class AlunoController {
 		Aluno aluno = new Aluno(ra, image, cpf, nome, email, endereco, telefone,
 				 dataNascimento, uf, municipio, idCurso, periodo);
 		
-		//salvar aluno no DB
-		
+		try {
+			AlunoDAO dao = new AlunoDAO();
+			
+			dao.atualizar(aluno);
+		} catch (Exception err) {
+			// Erro
+		}
 	}
 	
 	public void cadastrar(String ra, String image, String cpf, String nome, String email, String endereco, String telefone,
@@ -23,17 +29,42 @@ public class AlunoController {
 		
 		Aluno aluno = new Aluno(ra, image, cpf, nome, email, endereco, telefone,
 				 dataNascimento, uf, municipio, idCurso, periodo);
-		//salvar aluno no DB
+
+		try {
+			AlunoDAO dao = new AlunoDAO();
+			
+			dao.cadastrar(aluno);
+		} catch (Exception err) {
+			// Erro
+		}
+		
 		//criar boletim com Ra do aluno
 	}
 	
 	public void excluir(String ra) {
-		//excluir aluno e boletim
+		try {
+			AlunoDAO dao = new AlunoDAO();
+			
+			dao.deletar(ra);
+		} catch (Exception err) {
+			// Erro
+		}
+		
+		//excluir boletim
 	}
 	
 	public Aluno consultar(String ra) {
-		//retornar o aluno
-		return new Aluno();
+		Aluno aluno;
+		
+		try {
+			AlunoDAO dao = new AlunoDAO();
+			
+			aluno = dao.getAluno(ra);
+			return aluno;
+		} catch (Exception err) {
+			// Erro
+			return new Aluno();
+		}
 	}
 	
 	public void gerarBoletim(String ra) {
