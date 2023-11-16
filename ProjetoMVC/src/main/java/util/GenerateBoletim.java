@@ -3,28 +3,94 @@ package util;
 import java.io.*;
 import java.util.ArrayList;
 
+import dao.DisciplinaDao;
+import model.Disciplina;
 import model.ItemBoletim;
 
 public class GenerateBoletim{
      
-     public GenerateBoletim(String ra, String nome, String curso, String periodo, String campus, ArrayList<ItemBoletim> itens) throws IOException {
+     public GenerateBoletim(String ra, String nome, String curso, String periodo, String campus, ArrayList<ItemBoletim> itens) throws Exception {
     	 String fileName = ra+nome;
     	 OutputStream os = new FileOutputStream("/boletins/"+fileName+".html"); // nome do arquivo que será escrito
     	 Writer wr = new OutputStreamWriter(os); // criação de um escritor
     	 BufferedWriter br = new BufferedWriter(wr); // adiciono a um escritor de buffer
-  
     	 
+    	 DisciplinaDao dao = new DisciplinaDao();
+    	 
+    	 ArrayList<Disciplina> diciplinas = dao.getDisciplinas(curso);
+
     	 //itemBoletim
     	 
-    	 ArrayList<ItemBoletim> semester1 = new ArrayList<ItemBoletim>();
-    	 ArrayList<ItemBoletim> semester2 = new ArrayList<ItemBoletim>();
-    	 ArrayList<ItemBoletim> semester3 = new ArrayList<ItemBoletim>();
-    	 ArrayList<ItemBoletim> semester4 = new ArrayList<ItemBoletim>();
-    	 ArrayList<ItemBoletim> semester5 = new ArrayList<ItemBoletim>();
-    	 ArrayList<ItemBoletim> semester6 = new ArrayList<ItemBoletim>();
+    	 ArrayList<String> semester1 = new ArrayList<String>();
+    	 ArrayList<String> semester2 = new ArrayList<String>();
+    	 ArrayList<String> semester3 = new ArrayList<String>();
+    	 ArrayList<String> semester4 = new ArrayList<String>();
+    	 ArrayList<String> semester5 = new ArrayList<String>();
+    	 ArrayList<String> semester6 = new ArrayList<String>();
+    	 
+    	 for(Disciplina disciplina : diciplinas) {
+    		 for(ItemBoletim item : itens) {
+    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 1) {
+    				 semester1.add("<div class=\"materia\">\r\n"
+    			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+    			    	 		+ "  <div>\r\n"
+    			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+    			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+    			    	 		+ "  </div>\r\n"
+    			    	 		+ "</div>");
+    			}
+    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 2) {
+    				semester2.add("<div class=\"materia\">\r\n"
+			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+			    	 		+ "  <div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+			    	 		+ "  </div>\r\n"
+			    	 		+ "</div>");
+    			}
+    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 3) {
+    				semester3.add("<div class=\"materia\">\r\n"
+			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+			    	 		+ "  <div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+			    	 		+ "  </div>\r\n"
+			    	 		+ "</div>");
+    			}
+    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 4) {
+    				semester4.add("<div class=\"materia\">\r\n"
+			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+			    	 		+ "  <div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+			    	 		+ "  </div>\r\n"
+			    	 		+ "</div>");
+    			}
+   				if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 5) {
+   					semester5.add("<div class=\"materia\">\r\n"
+			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+			    	 		+ "  <div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+			    	 		+ "  </div>\r\n"
+			    	 		+ "</div>");
+   				}
+   				if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 6) {
+   					semester6.add("<div class=\"materia\">\r\n"
+			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+			    	 		+ "  <div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+			    	 		+ "  </div>\r\n"
+			    	 		+ "</div>");	 
+    			}
+    		 }
+    	 }
+    	 
     	 
 	     br.write(header());
 	     
+	     //alunos infos
 	     br.write("<div class=\"alunoInfos\">\r\n"
 	     		+ "        <div class=\"imageContainer\">\r\n"
 	     		+ "\r\n"
@@ -41,15 +107,84 @@ public class GenerateBoletim{
 	     
 	     br.write(" <div class=\"notas\">\r\n"
 	     		+ "        <div class=\"table\">");
-	     
+	     //1semestre
 	     br.write("<div class=\"semester\">\r\n"
 	     		+ "   <div class=\"semester-header\">\r\n"
 	     		+ "     <span>1 Semestre</span>\r\n"
 	     		+ "   </div>\r\n"
-	     		+ "     <div class=\"semester-list\">\r\n"
-	     		+ "\r\n"    //materia aqui
-	     		+ "   </div>\r\n"
+	     		+ "     <div class=\"semester-list\">\r\n");
+	     		
+	     for(String item:semester1) {
+	    	 br.write(item);
+	     } 
+	     br.write("  </div>\r\n"
 	     		+ "</div>");
+	     
+	   //2semestre
+	     br.write("<div class=\"semester\">\r\n"
+	     		+ "   <div class=\"semester-header\">\r\n"
+	     		+ "     <span>2 Semestre</span>\r\n"
+	     		+ "   </div>\r\n"
+	     		+ "     <div class=\"semester-list\">\r\n");
+	     		
+	     for(String item:semester2) {
+	    	 br.write(item);
+	     } 
+	     br.write("  </div>\r\n"
+	     		+ "</div>");
+	     
+	   //3semestre
+	     br.write("<div class=\"semester\">\r\n"
+	     		+ "   <div class=\"semester-header\">\r\n"
+	     		+ "     <span>3 Semestre</span>\r\n"
+	     		+ "   </div>\r\n"
+	     		+ "     <div class=\"semester-list\">\r\n");
+	     		
+	     for(String item:semester3) {
+	    	 br.write(item);
+	     } 
+	     br.write("  </div>\r\n"
+	     		+ "</div>");
+	     
+	   //4semestre
+	     br.write("<div class=\"semester\">\r\n"
+	     		+ "   <div class=\"semester-header\">\r\n"
+	     		+ "     <span>4 Semestre</span>\r\n"
+	     		+ "   </div>\r\n"
+	     		+ "     <div class=\"semester-list\">\r\n");
+	     		
+	     for(String item:semester4) {
+	    	 br.write(item);
+	     } 
+	     br.write("  </div>\r\n"
+	     		+ "</div>");
+	     
+	   //5semestre
+	     br.write("<div class=\"semester\">\r\n"
+	     		+ "   <div class=\"semester-header\">\r\n"
+	     		+ "     <span>5 Semestre</span>\r\n"
+	     		+ "   </div>\r\n"
+	     		+ "     <div class=\"semester-list\">\r\n");
+	     		
+	     for(String item:semester5) {
+	    	 br.write(item);
+	     } 
+	     br.write("  </div>\r\n"
+	     		+ "</div>");
+	     
+	   //1semestre
+	     br.write("<div class=\"semester\">\r\n"
+	     		+ "   <div class=\"semester-header\">\r\n"
+	     		+ "     <span>6 Semestre</span>\r\n"
+	     		+ "   </div>\r\n"
+	     		+ "     <div class=\"semester-list\">\r\n");
+	     		
+	     for(String item:semester6) {
+	    	 br.write(item);
+	     } 
+	     br.write("  </div>\r\n"
+	     		+ "</div>");
+	     
 	     
 	     br.write(end());
 	     br.close();
