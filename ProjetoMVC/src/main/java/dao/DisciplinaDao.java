@@ -48,32 +48,4 @@ public class DisciplinaDao {
 
         return disciplinas;
     }
-
-    public ArrayList<Disciplina> getDisciplinasPorSemestre(String idCurso, Integer semestre) throws Exception {
-        ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
-
-        try {
-            String SQL = "SELECT * FROM Disciplina WHERE idCurso = ? AND semestre = ?";
-
-            ps = conn.prepareStatement(SQL);
-            ps.setString(1, idCurso);
-            ps.setInt(2, semestre);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Disciplina d = new Disciplina();
-                d.setId(rs.getString("id"));
-                d.setIdCurso(idCurso);
-                d.setNome(rs.getString("nome"));
-                d.setSemestre(semestre);
-
-                disciplinas.add(d);
-            }
-
-        } catch (SQLException err) {
-            throw new Exception("Erro ao encontrar disciplinas " + err);
-        }
-
-        return disciplinas;
-    }
 }

@@ -9,7 +9,7 @@ public class ConnectionFactory {
 	public static Connection getConnection() throws Exception {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String url="jdbc:mysql://localhost:3306/db_academico";
+			String url="jdbc:mysql://localhost:3307/sisAcademicoMVC";
 			String login = "root";
 			String senha = "";
 			return DriverManager.getConnection(url, login, senha);

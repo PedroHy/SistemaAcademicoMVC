@@ -9,9 +9,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import controller.AlunoController;
+import controller.CursoController;
+import model.Curso;
+
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class PanelCadastroDeAluno extends JPanel {
 
@@ -45,7 +53,9 @@ public class PanelCadastroDeAluno extends JPanel {
 	private JRadioButton rdbVespertino;
 	private JRadioButton rdbNoturno;
 	private JButton btnCadastrar;
-	private JComboBox comboBox_1;
+	private JComboBox cmbCampus;
+	private JComboBox cmbCurso;
+
 
 	/**
 	 * Create the panel.
@@ -211,20 +221,50 @@ public class PanelCadastroDeAluno extends JPanel {
 		rdbNoturno.setBounds(407, 532, 109, 23);
 		add(rdbNoturno);
 		
+		
+		cmbCurso = new JComboBox();
+		cmbCurso.setModel(new DefaultComboBoxModel(new String[] {"(Selecione uma opção)", "Analise e desenvolvimento de sistemas", "Logistica"}));
+		cmbCurso.setBounds(176, 437, 670, 33);
+		add(cmbCurso);
+		
+		cmbCampus = new JComboBox();
+		cmbCampus.setModel(new DefaultComboBoxModel(new String[] {"(Selecione uma opção)", "Guarulhos"}));
+		cmbCampus.setBounds(176, 481, 670, 33);
+		add(cmbCampus);
+		
 		btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String periodo;
+				if(rdbNoturno.isSelected()) {
+					periodo = "Noturno";
+				} else if(rdbVespertino.isSelected()){
+					periodo = "Vespertino";
+				}else {
+					periodo = "Matutino";
+				}
+				
+				CursoController cursoController = new CursoController();
+				Curso curso;
+				AlunoController controller = new AlunoController();
+				try {
+					curso = cursoController.getCursoByName(cmbCurso.getSelectedItem().toString());
+					controller.cadastrar(textRA.getText(), "path", textCpf.getText(), 
+							textNome.getText(), textEmail.getText(), textEnd.getText(),
+							textCelular.getText(), textDataNascimento.getText(), textUf.getText(),
+							textMunicipio.getText(), curso.getId(), cmbCampus.getSelectedItem().toString(), periodo);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnCadastrar.setForeground(Color.WHITE);
 		btnCadastrar.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
 		btnCadastrar.setBackground(new Color(27, 95, 158));
 		btnCadastrar.setBounds(677, 664, 169, 49);
 		add(btnCadastrar);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(176, 437, 670, 33);
-		add(comboBox);
-		
-		comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(176, 481, 670, 33);
-		add(comboBox_1);
 
 	}
 }

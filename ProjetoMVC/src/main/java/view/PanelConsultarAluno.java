@@ -10,8 +10,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import controller.AlunoController;
+import controller.CursoController;
+import model.Aluno;
+import model.Curso;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelConsultarAluno extends JPanel {
 
@@ -44,8 +52,8 @@ public class PanelConsultarAluno extends JPanel {
 	private JLabel lblNome_1;
 	private JTextField textPeriodo;
 	private JButton btnConsultar;
-	private JComboBox comboBox;
-	private JComboBox comboBox_1;
+	private JTextField textCampus;
+	private JTextField textCurso;
 
 	/**
 	 * Create the panel.
@@ -227,22 +235,51 @@ public class PanelConsultarAluno extends JPanel {
 		textPeriodo.setColumns(10);
 		
 		btnConsultar = new JButton("Consultar");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				CursoController cursoController = new CursoController();
+				AlunoController alunoController = new AlunoController();
+				
+				try {
+					Aluno aluno = alunoController.consultar(textRaCpf.getText());
+					Curso curso = cursoController.getCurso(aluno.getIdCurso());
+					textRa.setText(aluno.getRa());
+					textCpf.setText(aluno.getCpf());
+					textNome.setText(aluno.getNome());
+					textDataNascimento.setText(aluno.getDataNascimento());
+					textCelular.setText(aluno.getTelefone());
+					textEmail.setText(aluno.getEmail());
+					textEnd.setText(aluno.getEndereco());
+					textUf.setText(aluno.getUf());
+					textMunicipio.setText(aluno.getMunicipio());
+					textPeriodo.setText(aluno.getPeriodo());
+					textCampus.setText(aluno.getIdCampus());
+					textCurso.setText(curso.getNome());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnConsultar.setForeground(Color.WHITE);
 		btnConsultar.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
 		btnConsultar.setBackground(new Color(27, 95, 158));
 		btnConsultar.setBounds(693, 662, 169, 49);
 		add(btnConsultar);
 		
-		comboBox = new JComboBox();
-		comboBox.setEnabled(false);
-		comboBox.setBounds(176, 498, 684, 33);
-		add(comboBox);
+		textCampus = new JTextField();
+		textCampus.setEnabled(false);
+		textCampus.setEditable(false);
+		textCampus.setColumns(10);
+		textCampus.setBounds(176, 546, 684, 30);
+		add(textCampus);
 		
-		comboBox_1 = new JComboBox();
-		comboBox_1.setEnabled(false);
-		comboBox_1.setBounds(176, 545, 684, 33);
-		add(comboBox_1);
+		textCurso = new JTextField();
+		textCurso.setEnabled(false);
+		textCurso.setEditable(false);
+		textCurso.setColumns(10);
+		textCurso.setBounds(176, 502, 684, 30);
+		add(textCurso);
 
 	}
-
 }

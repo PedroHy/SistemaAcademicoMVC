@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import model.Aluno;
+import model.ItemBoletim;
 import util.ConnectionFactory;
 
 public class AlunoDAO {
@@ -23,8 +25,8 @@ public class AlunoDAO {
 	
 	public void cadastrar(Aluno aluno) throws Exception {
 		try {
-			String SQL = "INSERT INTO ALUNO (ra, imagem, nome, cpf, email, endereco, telefone, dataNascimento, uf, municipio, idCurso, periodo) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String SQL = "INSERT INTO ALUNO (ra, imagem, nome, cpf, email, endereco, telefone, dataNascimento, uf, municipio, idCurso, idCampus, periodo) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, aluno.getRa());
@@ -38,7 +40,8 @@ public class AlunoDAO {
 			ps.setString(9, aluno.getUf());
 			ps.setString(10, aluno.getMunicipio());
 			ps.setString(11, aluno.getIdCurso());
-			ps.setString(12, aluno.getPeriodo());
+			ps.setString(12, aluno.getIdCampus());
+			ps.setString(13, aluno.getPeriodo());
 			ps.executeUpdate();
 		} catch (SQLException err) {
 			throw new Exception("Erro ao atualizar dados " + err);
@@ -69,6 +72,7 @@ public class AlunoDAO {
 				aluno.setUf(rs.getString("uf"));
 				aluno.setMunicipio(rs.getString("municipio"));
 				aluno.setIdCurso(rs.getString("idCurso"));
+				aluno.setIdCampus(rs.getString("idCampus"));
 				aluno.setPeriodo(rs.getString("periodo"));
 			} else {
 				throw new Exception("Aluno não encontrado");
@@ -82,7 +86,7 @@ public class AlunoDAO {
 	
 	public void atualizar(Aluno aluno) throws Exception{
 		try {
-			String SQL = "UPDATE Aluno SET imagem = ?, nome = ?, cpf = ?, email = ?, endereco = ?, telefone = ?, dataNascimento = ?, uf = ?, municipio = ?, idCurso = ?, pediodo = ? WHERE ra = ?";
+			String SQL = "UPDATE Aluno SET imagem = ?, nome = ?, cpf = ?, email = ?, endereco = ?, telefone = ?, dataNascimento = ?, uf = ?, municipio = ?, idCurso = ?, idCampus=?, periodo = ? WHERE ra = ?";
 			
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, aluno.getImagem());
@@ -95,8 +99,9 @@ public class AlunoDAO {
 			ps.setString(8, aluno.getUf());
 			ps.setString(9, aluno.getMunicipio());
 			ps.setString(10, aluno.getIdCurso());
-			ps.setString(11, aluno.getPeriodo());
-			ps.setString(12, aluno.getRa());
+			ps.setString(11, aluno.getIdCampus());
+			ps.setString(12, aluno.getPeriodo());
+			ps.setString(13, aluno.getRa());
 			ps.executeUpdate();
 		} catch (SQLException err) {
 			throw new Exception("Erro ao atualizar dados " + err);
@@ -107,7 +112,7 @@ public class AlunoDAO {
 	
 	public void deletar(String ra) throws Exception{
 		try {
-			String SQL = "DELETE Aluno WHERE ra = ?";
+			String SQL = "DELETE FROM Aluno WHERE ra = ?";
 			
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, ra);
@@ -118,4 +123,6 @@ public class AlunoDAO {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
 	}
+	
+	
 }

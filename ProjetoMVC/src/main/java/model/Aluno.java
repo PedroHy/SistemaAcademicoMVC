@@ -13,12 +13,13 @@ public class Aluno {
 	private String uf;
 	private String municipio;
 	private String idCurso;
+	private String idCampus;
 	private String periodo;
 	
 	//constructors
 	public Aluno() {}
 	public Aluno(String ra, String imagem, String cpf, String nome, String email, String endereco, String telefone,
-			String dataNascimento, String uf, String municipio, String idCurso, String periodo) {
+			String dataNascimento, String uf, String municipio, String idCurso, String idCampus, String periodo) {
 		super();
 		this.ra = ra;
 		this.imagem = imagem;
@@ -31,6 +32,7 @@ public class Aluno {
 		this.uf = uf;
 		this.municipio = municipio;
 		this.idCurso = idCurso;
+		this.idCampus = idCampus;
 		this.periodo = periodo;
 	}
 
@@ -107,5 +109,12 @@ public class Aluno {
 	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
 	}
+	public String getIdCampus() {
+		return idCampus;
+	}
+	public void setIdCampus(String idCampus) {
+		this.idCampus = idCampus;
+	}
+	
 
 }

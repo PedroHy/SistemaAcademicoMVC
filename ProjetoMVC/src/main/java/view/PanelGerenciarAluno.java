@@ -8,12 +8,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JTextField;
+
+import controller.AlunoController;
+import controller.CursoController;
+import model.Aluno;
+import model.Curso;
+
 import java.awt.Color;
 import java.awt.Cursor;
 
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelGerenciarAluno extends JPanel {
 
@@ -46,11 +54,9 @@ public class PanelGerenciarAluno extends JPanel {
 	private JLabel lblPerodo;
 	private JButton btnConsultar;
 	private JButton btnExcluir;
-	private JRadioButton rdbMatutino;
-	private JRadioButton rdbVespertino;
-	private JRadioButton rdbNoturno;
-	private JComboBox comboBox;
-	private JComboBox comboBox_1;
+	private JTextField textCurso;
+	private JTextField textCampus;
+	private JTextField textPeriodo;
 
 	/**
 	 * Create the panel.
@@ -77,14 +83,14 @@ public class PanelGerenciarAluno extends JPanel {
 		iconSair.setBounds(1014, 24, 24, 24);
 		add(iconSair);
 		
-		lblRaOuCpf = new JLabel("RA ou CPF:");
+		lblRaOuCpf = new JLabel("RA:");
 		lblRaOuCpf.setFont(new Font("Malgun Gothic", Font.BOLD, 15));
 		lblRaOuCpf.setBounds(118, 35, 87, 33);
 		add(lblRaOuCpf);
 		
 		textRaCpf = new JTextField();
 		textRaCpf.setColumns(10);
-		textRaCpf.setBounds(215, 35, 655, 33);
+		textRaCpf.setBounds(186, 35, 593, 33);
 		add(textRaCpf);
 		
 		lblNewLabel = new JLabel("RA:");
@@ -213,6 +219,23 @@ public class PanelGerenciarAluno extends JPanel {
 		add(lblPerodo);
 		
 		btnConsultar = new JButton("Salvar");
+		btnConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CursoController cursoController = new CursoController();
+				Curso curso;
+				AlunoController controller = new AlunoController();
+				try {
+					curso = cursoController.getCursoByName(textCurso.getText());
+					controller.salvar(textRa.getText(), "path", textCpf.getText(), 
+							textNome.getText(), textEmail.getText(), textEnd.getText(),
+							textCelular.getText(), textDataNascimento.getText(), textUf.getText(),
+							textMunicipio.getText(), curso.getId(), textCampus.getText(), textPeriodo.getText());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnConsultar.setForeground(Color.WHITE);
 		btnConsultar.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
 		btnConsultar.setBackground(new Color(27, 95, 158));
@@ -220,40 +243,72 @@ public class PanelGerenciarAluno extends JPanel {
 		add(btnConsultar);
 		
 		btnExcluir = new JButton("Excluir");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				AlunoController alunoController = new AlunoController();
+				try {
+					alunoController.excluir(textRaCpf.getText());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnExcluir.setForeground(Color.WHITE);
 		btnExcluir.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
 		btnExcluir.setBackground(new Color(255, 50, 37));
 		btnExcluir.setBounds(489, 639, 169, 49);
 		add(btnExcluir);
 		
-		rdbMatutino = new JRadioButton("Matutino");
-		rdbMatutino.setEnabled(false);
-		rdbMatutino.setFont(new Font("Malgun Gothic", Font.PLAIN, 15));
-		rdbMatutino.setBounds(186, 571, 89, 23);
-		add(rdbMatutino);
+		textCurso = new JTextField();
+		textCurso.setEditable(false);
+		textCurso.setColumns(10);
+		textCurso.setBounds(186, 475, 684, 33);
+		add(textCurso);
 		
-		rdbVespertino = new JRadioButton("Vespertino");
-		rdbVespertino.setEnabled(false);
-		rdbVespertino.setFont(new Font("Malgun Gothic", Font.PLAIN, 15));
-		rdbVespertino.setBounds(292, 573, 109, 23);
-		add(rdbVespertino);
+		textCampus = new JTextField();
+		textCampus.setEditable(false);
+		textCampus.setColumns(10);
+		textCampus.setBounds(186, 519, 684, 33);
+		add(textCampus);
 		
-		rdbNoturno = new JRadioButton("Noturno");
-		rdbNoturno.setEnabled(false);
-		rdbNoturno.setFont(new Font("Malgun Gothic", Font.PLAIN, 15));
-		rdbNoturno.setBounds(417, 573, 109, 23);
-		add(rdbNoturno);
+		textPeriodo = new JTextField();
+		textPeriodo.setEditable(false);
+		textPeriodo.setColumns(10);
+		textPeriodo.setBounds(186, 563, 256, 33);
+		add(textPeriodo);
 		
-		comboBox = new JComboBox();
-		comboBox.setEnabled(false);
-		comboBox.setBounds(186, 479, 684, 33);
-		add(comboBox);
-		
-		comboBox_1 = new JComboBox();
-		comboBox_1.setEnabled(false);
-		comboBox_1.setBounds(186, 522, 684, 33);
-		add(comboBox_1);
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setForeground(new Color(255, 255, 255));
+		btnPesquisar.setBackground(new Color(30, 144, 255));
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CursoController cursoController = new CursoController();
+				AlunoController alunoController = new AlunoController();
+				
+				try {
+					Aluno aluno = alunoController.consultar(textRaCpf.getText());
+					Curso curso = cursoController.getCurso(aluno.getIdCurso());
+					textRa.setText(aluno.getRa());
+					textCpf.setText(aluno.getCpf());
+					textNome.setText(aluno.getNome());
+					textDataNascimento.setText(aluno.getDataNascimento());
+					textCelular.setText(aluno.getTelefone());
+					textEmail.setText(aluno.getEmail());
+					textEnd.setText(aluno.getEndereco());
+					textUf.setText(aluno.getUf());
+					textMunicipio.setText(aluno.getMunicipio());
+					textPeriodo.setText(aluno.getPeriodo());
+					textCampus.setText(aluno.getIdCampus());
+					textCurso.setText(curso.getNome());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnPesquisar.setBounds(781, 32, 89, 39);
+		add(btnPesquisar);
 
 	}
-
 }
