@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import model.Curso;
 import util.ConnectionFactory;
@@ -39,5 +40,28 @@ public class CursoDAO {
 		}
 
 		return curso;
+	}
+
+	public ArrayList<Curso> getCursos() throws Exception {
+		ArrayList<Curso> cursos = new ArrayList<Curso>();
+
+		try {
+			String SQL = "SELECT * FROM Curso";
+
+			ps = conn.prepareStatement(SQL);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Curso curso = new Curso();
+				curso.setId(rs.getString("id"));
+				curso.setNome(rs.getString("nome"));
+
+				cursos.add(curso);
+			}
+		} catch (SQLException err) {
+			throw new Exception("Erro ao encontrar cursos" + err);
+		}
+
+		return cursos;
 	}
 }
