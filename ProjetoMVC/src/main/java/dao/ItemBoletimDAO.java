@@ -38,15 +38,16 @@ public class ItemBoletimDAO {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
 	}
-	
+
 	public ItemBoletim getItemBoletim(String raAluno, String idDisciplina) throws Exception {
 		ItemBoletim item = new ItemBoletim();
 
 		try {
-			String SQL = "SELECT * FROM ItemBoletim WHERE raAluno = ? AND idDisciplina=?";
+			String SQL = "SELECT * FROM ItemBoletim WHERE raAluno = ? AND idDisciplina = ?";
 
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, raAluno);
+			ps.setString(2, idDisciplina);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
@@ -64,7 +65,7 @@ public class ItemBoletimDAO {
 	}
 
 	public ArrayList<ItemBoletim> getAllItemBoletim(String raAluno, String idDisciplina) throws Exception {
-		 ArrayList<ItemBoletim> items = new  ArrayList<ItemBoletim>();
+		ArrayList<ItemBoletim> items = new ArrayList<ItemBoletim>();
 
 		try {
 			String SQL = "SELECT * FROM ItemBoletim WHERE raAluno = ?";
@@ -79,7 +80,7 @@ public class ItemBoletimDAO {
 				item.setIdDiciplina(idDisciplina);
 				item.setFaltas(rs.getInt("faltas"));
 				item.setNota(rs.getDouble("nota"));
-				
+
 				items.add(item);
 			}
 
@@ -89,8 +90,7 @@ public class ItemBoletimDAO {
 
 		return items;
 	}
-	
-	
+
 	public void editarItemBoletim(ItemBoletim item) throws Exception {
 		try {
 			String SQL = "UPDATE ItemBoletim SET nota = ?, faltas = ? WHERE raAluno = ? AND idDisciplina=?";
@@ -108,7 +108,7 @@ public class ItemBoletimDAO {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
 	}
-	
+
 	public void deleteItem(String ra) throws Exception {
 		try {
 			String SQL = "DELETE FROM ItemBoletim WHERE raAluno = ?";
