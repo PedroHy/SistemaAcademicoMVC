@@ -2,7 +2,6 @@
 Projeto da faculdade na matéria de POO para exercitar os conhecimentos na linguagem Java e na arquitetura MVC. 
 
 script SQL:
-
 CREATE DATABASE sisAcademicoMVC;
 
 USE sisAcademicoMVC;
@@ -41,7 +40,8 @@ CREATE TABLE Aluno(
 );
 
 CREATE TABLE ItemBoletim( 
-	id VARCHAR(80) PRIMARY KEY, 
+	id INTEGER auto_increment PRIMARY KEY, 
+    raAluno VARCHAR(60),  FOREIGN KEY (raAluno) REFERENCES Aluno(ra),
 	idDisciplina VARCHAR(100), 
     nota DOUBLE, 
     faltas INTEGER, 
