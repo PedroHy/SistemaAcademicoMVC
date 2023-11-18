@@ -9,7 +9,7 @@ public class ConnectionFactory {
 	public static Connection getConnection() throws Exception {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String url="jdbc:mysql://localhost:3307/sisAcademicoMVC";
+			String url = "jdbc:mysql://localhost:3306/sisAcademicoMVC";
 			String login = "root";
 			String senha = "";
 			return DriverManager.getConnection(url, login, senha);
@@ -17,7 +17,7 @@ public class ConnectionFactory {
 			throw new Exception(e.getMessage());
 		}
 	}
-	
+
 	public static void closeConnection(Connection conn, Statement stmt,
 			ResultSet rs) throws Exception {
 		close(conn, stmt, rs);

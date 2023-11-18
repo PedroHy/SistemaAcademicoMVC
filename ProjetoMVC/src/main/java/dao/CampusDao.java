@@ -33,7 +33,7 @@ public class CampusDao {
             while (rs.next()) {
                 Campus c = new Campus();
                 c.setId(rs.getString("id"));
-                c.setIdCursos(rs.getString("idCursos"));
+                c.setIdCursos(rs.getString("idCurso"));
                 c.setNome(rs.getString("nome"));
 
                 campuss.add(c);
