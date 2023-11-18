@@ -57,6 +57,7 @@ public class PanelGerenciarAluno extends JPanel {
 	private JTextField textCurso;
 	private JTextField textCampus;
 	private JTextField textPeriodo;
+	private JButton btnLimpar;
 
 	/**
 	 * Create the panel.
@@ -81,6 +82,15 @@ public class PanelGerenciarAluno extends JPanel {
 		iconSair = new JLabel("");
 		iconSair.setIcon(new ImageIcon(PanelGerenciarAluno.class.getResource("/icon/btnFechar.png")));
 		iconSair.setBounds(1014, 24, 24, 24);
+		iconSair.addMouseListener(new MouseAdapter() {
+			private int DISPOSE_ON_CLOSE;
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.exit(DISPOSE_ON_CLOSE);
+				
+			}
+		});
 		add(iconSair);
 		
 		lblRaOuCpf = new JLabel("RA:");
@@ -90,7 +100,7 @@ public class PanelGerenciarAluno extends JPanel {
 		
 		textRaCpf = new JTextField();
 		textRaCpf.setColumns(10);
-		textRaCpf.setBounds(186, 35, 593, 33);
+		textRaCpf.setBounds(186, 35, 559, 33);
 		add(textRaCpf);
 		
 		lblNewLabel = new JLabel("RA:");
@@ -107,7 +117,6 @@ public class PanelGerenciarAluno extends JPanel {
 		add(iconImage);
 		
 		textRa = new JTextField();
-		textRa.setEnabled(false);
 		textRa.setEditable(false);
 		textRa.setColumns(10);
 		textRa.setBounds(372, 110, 498, 33);
@@ -307,8 +316,32 @@ public class PanelGerenciarAluno extends JPanel {
 				}
 			}
 		});
-		btnPesquisar.setBounds(781, 32, 89, 39);
+		btnPesquisar.setBounds(755, 32, 115, 39);
 		add(btnPesquisar);
+		
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textRaCpf.setText("");
+				textRa.setText("");
+				textCpf.setText("");
+				textNome.setText("");
+				textDataNascimento.setText("");
+				textCelular.setText("");
+				textEmail.setText("");
+				textEnd.setText("");
+				textUf.setText("");
+				textMunicipio.setText("");
+				textPeriodo.setText("");
+				textCampus.setText("");
+				textCurso.setText("");
+			}
+		});
+		btnLimpar.setForeground(Color.WHITE);
+		btnLimpar.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
+		btnLimpar.setBackground(Color.DARK_GRAY);
+		btnLimpar.setBounds(118, 639, 169, 49);
+		add(btnLimpar);
 
 	}
 }

@@ -21,6 +21,29 @@ public class DisciplinaDao {
             throw new Exception("erro: \n" + e.getMessage());
         }
     }
+    
+    public Disciplina getDisciplinaByName(String name) throws Exception {
+    	Disciplina disciplina = new Disciplina();
+    	try {
+            String SQL = "SELECT * FROM Disciplina WHERE nome = ?";
+
+            ps = conn.prepareStatement(SQL);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+	            disciplina.setId(rs.getString("id"));
+	            disciplina.setIdCurso(rs.getString("idCurso"));
+	            disciplina.setNome(rs.getString("nome"));
+	            disciplina.setSemestre(rs.getInt("semestre"));
+            }
+
+        } catch (SQLException err) {
+            throw new Exception("Erro ao encontrar disciplina " + err);
+        }
+
+        return disciplina;
+    }
 
     public ArrayList<Disciplina> getDisciplinas(String idCurso) throws Exception {
         ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();

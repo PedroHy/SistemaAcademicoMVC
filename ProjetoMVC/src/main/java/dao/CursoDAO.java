@@ -88,10 +88,10 @@ public class CursoDAO {
 	public ArrayList<Disciplina> getDiciplinas(String idCurso) throws Exception {
 		ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
 		try {
-			String SQL = "SELECT * FROM Disciplina WHERE idCurso=?;";
+			String SQL = "SELECT * FROM Disciplina WHERE idCurso=?";
 
-			ps.setString(1, idCurso);
 			ps = conn.prepareStatement(SQL);
+			ps.setString(1, "0001");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Disciplina disciplina = new Disciplina();

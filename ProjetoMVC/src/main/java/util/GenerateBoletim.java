@@ -11,7 +11,7 @@ public class GenerateBoletim{
      
      public GenerateBoletim(String ra, String nome, String curso, String periodo, String campus, ArrayList<ItemBoletim> itens) throws Exception {
     	 String fileName = ra+nome;
-    	 OutputStream os = new FileOutputStream("/boletins/"+fileName+".html"); // nome do arquivo que será escrito
+    	 OutputStream os = new FileOutputStream("boletins/"+fileName+".html"); // nome do arquivo que será escrito
     	 Writer wr = new OutputStreamWriter(os); // criação de um escritor
     	 BufferedWriter br = new BufferedWriter(wr); // adiciono a um escritor de buffer
     	 
@@ -28,6 +28,7 @@ public class GenerateBoletim{
     	 ArrayList<String> semester5 = new ArrayList<String>();
     	 ArrayList<String> semester6 = new ArrayList<String>();
     	 
+    	 //filtrar Diciplinas por semestre - não ta funcionando
     	 for(Disciplina disciplina : diciplinas) {
     		 for(ItemBoletim item : itens) {
     			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 1) {
@@ -88,9 +89,10 @@ public class GenerateBoletim{
     	 }
     	 
     	 
-	     br.write(header());
+    	
+	     br.write(header()); //ta escrevendo o header e o style do html
 	     
-	     //alunos infos
+	     //primeira div que contem as informacoes do aluno
 	     br.write("<div class=\"alunoInfos\">\r\n"
 	     		+ "        <div class=\"imageContainer\">\r\n"
 	     		+ "\r\n"
@@ -105,6 +107,8 @@ public class GenerateBoletim{
 	     		+ "        </div>\r\n"
 	     		+ "    </div>");
 	     
+	     
+	     //div da tabela de semestres
 	     br.write(" <div class=\"notas\">\r\n"
 	     		+ "        <div class=\"table\">");
 	     //1semestre
@@ -182,10 +186,13 @@ public class GenerateBoletim{
 	     for(String item:semester6) {
 	    	 br.write(item);
 	     } 
+	     
+	     //fechando tabela de semestres
 	     br.write("  </div>\r\n"
 	     		+ "</div>");
 	     
 	     
+	     //	Ferchando html
 	     br.write(end());
 	     br.close();
      }

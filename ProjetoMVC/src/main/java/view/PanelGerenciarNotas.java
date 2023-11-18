@@ -6,35 +6,47 @@ import javax.swing.JLabel;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JTextField;
+
+import controller.AlunoController;
+import controller.CursoController;
+import model.Aluno;
+import model.Curso;
+import model.Disciplina;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelGerenciarNotas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel iconSair;
-	private JLabel iconSair_1;
 	private JLabel iblRaCpf;
-	private JTextField textField;
+	private JTextField textRaSearch;
 	private JLabel lblNome;
-	private JTextField textField_1;
+	private JTextField textNome;
 	private JLabel lblCurso;
-	private JTextField textField_2;
+	private JTextField textCurso;
 	private JLabel lblDisciplina;
 	private JLabel lblSemestre;
 	private JLabel lblSemestre_1;
-	private JTextField textField_5;
+	private JTextField textNota;
 	private JLabel lblSemestre_2;
-	private JTextField textField_6;
+	private JTextField textFaltas;
 	private JButton btnGerarBoletim;
 	private JButton btnSalvar;
-	private JComboBox comboBox;
-	private JComboBox comboBox_1;
+	private JComboBox<Object> comboDisciplina;
+	private JComboBox comboSemestre;
+	private JButton btnPesquisar;
+	private JButton btnLimpar;
 
 	/**
 	 * Create the panel.
@@ -56,47 +68,41 @@ public class PanelGerenciarNotas extends JPanel {
 		iconSair.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		setLayout(null);
 		
-		iconSair_1 = new JLabel("");
-		iconSair_1.setBounds(1014, 28, 24, 24);
-		iconSair_1.setIcon(new ImageIcon(PanelGerenciarNotas.class.getResource("/icon/btnFechar.png")));
-		add(iconSair_1);
 		
-		iblRaCpf = new JLabel("RA ou CPF:");
+		iblRaCpf = new JLabel("RA:");
 		iblRaCpf.setFont(new Font("Malgun Gothic", Font.BOLD, 15));
 		iblRaCpf.setBounds(99, 88, 91, 33);
 		add(iblRaCpf);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
-		textField.setColumns(10);
-		textField.setBounds(200, 90, 722, 33);
-		add(textField);
+		textRaSearch = new JTextField();
+		textRaSearch.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
+		textRaSearch.setColumns(10);
+		textRaSearch.setBounds(200, 90, 597, 33);
+		add(textRaSearch);
 		
 		lblNome = new JLabel("Nome:");
 		lblNome.setFont(new Font("Malgun Gothic", Font.BOLD, 15));
 		lblNome.setBounds(99, 152, 91, 33);
 		add(lblNome);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setEnabled(false);
-		textField_1.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
-		textField_1.setColumns(10);
-		textField_1.setBounds(200, 154, 722, 33);
-		add(textField_1);
+		textNome = new JTextField();
+		textNome.setEditable(false);
+		textNome.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
+		textNome.setColumns(10);
+		textNome.setBounds(200, 154, 722, 33);
+		add(textNome);
 		
 		lblCurso = new JLabel("Curso:");
 		lblCurso.setFont(new Font("Malgun Gothic", Font.BOLD, 15));
 		lblCurso.setBounds(99, 215, 91, 33);
 		add(lblCurso);
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setEnabled(false);
-		textField_2.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
-		textField_2.setColumns(10);
-		textField_2.setBounds(200, 217, 426, 33);
-		add(textField_2);
+		textCurso = new JTextField();
+		textCurso.setEditable(false);
+		textCurso.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
+		textCurso.setColumns(10);
+		textCurso.setBounds(200, 217, 426, 33);
+		add(textCurso);
 		
 		lblDisciplina = new JLabel("Disciplina:");
 		lblDisciplina.setFont(new Font("Malgun Gothic", Font.BOLD, 15));
@@ -113,24 +119,35 @@ public class PanelGerenciarNotas extends JPanel {
 		lblSemestre_1.setBounds(99, 332, 50, 33);
 		add(lblSemestre_1);
 		
-		textField_5 = new JTextField();
-		textField_5.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
-		textField_5.setColumns(10);
-		textField_5.setBounds(200, 334, 162, 33);
-		add(textField_5);
+		textNota = new JTextField();
+		textNota.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
+		textNota.setColumns(10);
+		textNota.setBounds(200, 334, 162, 33);
+		add(textNota);
 		
 		lblSemestre_2 = new JLabel("Faltas:");
 		lblSemestre_2.setFont(new Font("Malgun Gothic", Font.BOLD, 15));
 		lblSemestre_2.setBounds(428, 332, 57, 33);
 		add(lblSemestre_2);
 		
-		textField_6 = new JTextField();
-		textField_6.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
-		textField_6.setColumns(10);
-		textField_6.setBounds(504, 334, 162, 33);
-		add(textField_6);
+		textFaltas = new JTextField();
+		textFaltas.setFont(new Font("Malgun Gothic", Font.PLAIN, 11));
+		textFaltas.setColumns(10);
+		textFaltas.setBounds(504, 334, 162, 33);
+		add(textFaltas);
 		
 		btnGerarBoletim = new JButton("Gerar Boletim");
+		btnGerarBoletim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AlunoController controller = new AlunoController();
+				try {
+					controller.gerarBoletim(textRaSearch.getText());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnGerarBoletim.setForeground(Color.WHITE);
 		btnGerarBoletim.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
 		btnGerarBoletim.setBackground(new Color(27, 95, 158));
@@ -138,20 +155,91 @@ public class PanelGerenciarNotas extends JPanel {
 		add(btnGerarBoletim);
 		
 		btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				AlunoController alunoDao = new AlunoController();
+				CursoController cursoDao = new CursoController();
+				
+				try {
+					Disciplina disciplina = cursoDao.getDisciplina(comboDisciplina.getSelectedItem().toString());
+					alunoDao.editarItemBoletim(textRaSearch.getText(), disciplina.getId(), Double.parseDouble(textNota.getText()), Integer.parseInt(textFaltas.getText()));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnSalvar.setForeground(Color.WHITE);
 		btnSalvar.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
 		btnSalvar.setBackground(new Color(27, 95, 158));
 		btnSalvar.setBounds(766, 701, 156, 49);
 		add(btnSalvar);
 		
-		comboBox = new JComboBox<Object>();
-		comboBox.setToolTipText("Selecione a Disciplina . . .");
-		comboBox.setBounds(200, 275, 722, 33);
-		add(comboBox);
+		comboDisciplina = new JComboBox<Object>();
+		comboDisciplina.setBackground(Color.WHITE);
+		comboDisciplina.setToolTipText("Selecione a Disciplina . . .");
+		comboDisciplina.setBounds(200, 275, 722, 33);
+		add(comboDisciplina);
 		
-		comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(760, 218, 162, 33);
-		add(comboBox_1);
+		comboSemestre = new JComboBox();
+		comboSemestre.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6"}));
+		comboSemestre.setBounds(760, 218, 162, 33);
+		add(comboSemestre);
+		
+		btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CursoController cursoController = new CursoController();
+				AlunoController alunoController = new AlunoController();
+				
+				try {
+					Aluno aluno = alunoController.consultar(textRaSearch.getText());
+					Curso curso = cursoController.getCurso(aluno.getIdCurso());
+					
+					textNome.setText(aluno.getNome());
+					textCurso.setText(curso.getNome());
+					
+					ArrayList<Disciplina> Alldisciplinas = cursoController.getDisciplinas(aluno.getIdCurso());
+					ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
+					
+					for(Disciplina disciplina:Alldisciplinas) {
+						if(disciplina.getSemestre() == comboSemestre.getSelectedIndex()+1) {							
+							disciplinas.add(disciplina);
+						}
+					}
+					
+					String[] modelDisciplina = new String[disciplinas.size()];
+					
+					for(int c =0; c < disciplinas.size(); c++) {							
+						modelDisciplina[c] = disciplinas.get(c).getNome();
+					}
+					
+					comboDisciplina.setModel(new DefaultComboBoxModel<Object>(modelDisciplina));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnPesquisar.setForeground(Color.WHITE);
+		btnPesquisar.setBackground(new Color(30, 144, 255));
+		btnPesquisar.setBounds(807, 88, 115, 39);
+		add(btnPesquisar);
+		
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textRaSearch.setText("");
+				textNome.setText("");
+				textCurso.setText("");
+				textNota.setText("");
+				textFaltas.setText("");
+			}
+		});
+		btnLimpar.setForeground(Color.WHITE);
+		btnLimpar.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
+		btnLimpar.setBackground(Color.DARK_GRAY);
+		btnLimpar.setBounds(99, 701, 169, 49);
+		add(btnLimpar);
 
 	}
 }

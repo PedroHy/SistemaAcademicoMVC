@@ -254,6 +254,7 @@ public class PanelCadastroDeAluno extends JPanel {
 							textNome.getText(), textEmail.getText(), textEnd.getText(),
 							textCelular.getText(), textDataNascimento.getText(), textUf.getText(),
 							textMunicipio.getText(), curso.getId(), cmbCampus.getSelectedItem().toString(), periodo);
+							
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

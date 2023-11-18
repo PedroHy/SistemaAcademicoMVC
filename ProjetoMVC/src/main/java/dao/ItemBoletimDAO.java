@@ -24,10 +24,10 @@ public class ItemBoletimDAO {
 
 	public void newItem(ItemBoletim item) throws Exception {
 		try {
-			String SQL = "INSERT INTO ItemBoletim(id, idDisciplina, nota, faltas) VALUES (?, ?, ?, ?)";
+			String SQL = "INSERT INTO ItemBoletim(raAluno, idDisciplina, nota, faltas) VALUES (?, ?, ?, ?)";
 
 			ps = conn.prepareStatement(SQL);
-			ps.setString(1, item.getId());
+			ps.setString(1, item.getRaAluno());
 			ps.setString(2, item.getIdDiciplina());
 			ps.setDouble(3, item.getNota());
 			ps.setInt(4, item.getFaltas());
@@ -43,14 +43,14 @@ public class ItemBoletimDAO {
 		ItemBoletim item = new ItemBoletim();
 
 		try {
-			String SQL = "SELECT * FROM ItemBoletim WHERE id = ?";
+			String SQL = "SELECT * FROM ItemBoletim WHERE raAluno = ? AND idDisciplina=?";
 
 			ps = conn.prepareStatement(SQL);
-			ps.setString(1, raAluno+idDisciplina);
+			ps.setString(1, raAluno);
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-				item.setId(raAluno+idDisciplina);
+				item.setRaAluno(raAluno);
 				item.setIdDiciplina(idDisciplina);
 				item.setFaltas(rs.getInt("faltas"));
 				item.setNota(rs.getDouble("nota"));
@@ -63,15 +63,43 @@ public class ItemBoletimDAO {
 		return item;
 	}
 
+	public ArrayList<ItemBoletim> getAllItemBoletim(String raAluno, String idDisciplina) throws Exception {
+		 ArrayList<ItemBoletim> items = new  ArrayList<ItemBoletim>();
 
+		try {
+			String SQL = "SELECT * FROM ItemBoletim WHERE raAluno = ?";
+
+			ps = conn.prepareStatement(SQL);
+			ps.setString(1, raAluno);
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				ItemBoletim item = new ItemBoletim();
+				item.setRaAluno(raAluno);
+				item.setIdDiciplina(idDisciplina);
+				item.setFaltas(rs.getInt("faltas"));
+				item.setNota(rs.getDouble("nota"));
+				
+				items.add(item);
+			}
+
+		} catch (SQLException err) {
+			throw new Exception("Erro ao encontrar itemBoletim" + err);
+		}
+
+		return items;
+	}
+	
+	
 	public void editarItemBoletim(ItemBoletim item) throws Exception {
 		try {
-			String SQL = "UPDATE ItemBoletim SET nota = ?, faltas = ? WHERE id = ?";
+			String SQL = "UPDATE ItemBoletim SET nota = ?, faltas = ? WHERE raAluno = ? AND idDisciplina=?";
 
 			ps = conn.prepareStatement(SQL);
 			ps.setDouble(1, item.getNota());
 			ps.setInt(2, item.getFaltas());
-			ps.setString(3, item.getId());
+			ps.setString(3, item.getRaAluno());
+			ps.setString(4, item.getIdDiciplina());
 			ps.executeUpdate();
 
 		} catch (SQLException err) {
@@ -81,6 +109,18 @@ public class ItemBoletimDAO {
 		}
 	}
 	
-	
+	public void deleteItem(String ra) throws Exception {
+		try {
+			String SQL = "DELETE FROM ItemBoletim WHERE raAluno = ?";
+
+			ps = conn.prepareStatement(SQL);
+			ps.setString(1, ra);
+			ps.executeUpdate();
+		} catch (SQLException err) {
+			throw new Exception("Erro ao editar itemBoletim" + err);
+		} finally {
+			ConnectionFactory.closeConnection(conn, ps);
+		}
+	}
 
 }

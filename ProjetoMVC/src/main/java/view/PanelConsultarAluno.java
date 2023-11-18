@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
 
 public class PanelConsultarAluno extends JPanel {
 
@@ -54,6 +55,7 @@ public class PanelConsultarAluno extends JPanel {
 	private JButton btnConsultar;
 	private JTextField textCampus;
 	private JTextField textCurso;
+	private JButton btnLimpar;
 
 	/**
 	 * Create the panel.
@@ -104,15 +106,15 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblNewLabel);
 		
 		textRa = new JTextField();
+		textRa.setBackground(SystemColor.window);
 		textRa.setEditable(false);
-		textRa.setEnabled(false);
 		textRa.setColumns(10);
 		textRa.setBounds(362, 133, 498, 33);
 		add(textRa);
 		
 		textCpf = new JTextField();
+		textCpf.setBackground(SystemColor.window);
 		textCpf.setEditable(false);
-		textCpf.setEnabled(false);
 		textCpf.setColumns(10);
 		textCpf.setBounds(362, 177, 498, 33);
 		add(textCpf);
@@ -128,8 +130,8 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblNome);
 		
 		textNome = new JTextField();
+		textNome.setBackground(SystemColor.window);
 		textNome.setEditable(false);
-		textNome.setEnabled(false);
 		textNome.setColumns(10);
 		textNome.setBounds(362, 224, 498, 33);
 		add(textNome);
@@ -140,8 +142,8 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblEmail);
 		
 		textEmail = new JTextField();
+		textEmail.setBackground(SystemColor.window);
 		textEmail.setEditable(false);
-		textEmail.setEnabled(false);
 		textEmail.setColumns(10);
 		textEmail.setBounds(176, 276, 684, 33);
 		add(textEmail);
@@ -152,8 +154,8 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblEnd);
 		
 		textEnd = new JTextField();
+		textEnd.setBackground(SystemColor.window);
 		textEnd.setEditable(false);
-		textEnd.setEnabled(false);
 		textEnd.setColumns(10);
 		textEnd.setBounds(176, 320, 684, 33);
 		add(textEnd);
@@ -164,15 +166,15 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblUf);
 		
 		textUf = new JTextField();
+		textUf.setBackground(SystemColor.window);
 		textUf.setEditable(false);
-		textUf.setEnabled(false);
 		textUf.setColumns(10);
 		textUf.setBounds(174, 367, 96, 33);
 		add(textUf);
 		
 		textMunicipio = new JTextField();
+		textMunicipio.setBackground(SystemColor.window);
 		textMunicipio.setEditable(false);
-		textMunicipio.setEnabled(false);
 		textMunicipio.setColumns(10);
 		textMunicipio.setBounds(369, 364, 180, 33);
 		add(textMunicipio);
@@ -183,8 +185,8 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblCelular);
 		
 		textCelular = new JTextField();
+		textCelular.setBackground(SystemColor.window);
 		textCelular.setEditable(false);
-		textCelular.setEnabled(false);
 		textCelular.setColumns(10);
 		textCelular.setBounds(175, 408, 180, 33);
 		add(textCelular);
@@ -195,8 +197,8 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblDataDeNascimento);
 		
 		textDataNascimento = new JTextField();
+		textDataNascimento.setBackground(SystemColor.window);
 		textDataNascimento.setEditable(false);
-		textDataNascimento.setEnabled(false);
 		textDataNascimento.setColumns(10);
 		textDataNascimento.setBounds(538, 408, 322, 33);
 		add(textDataNascimento);
@@ -228,8 +230,8 @@ public class PanelConsultarAluno extends JPanel {
 		add(lblNome_1);
 		
 		textPeriodo = new JTextField();
+		textPeriodo.setBackground(SystemColor.window);
 		textPeriodo.setEditable(false);
-		textPeriodo.setEnabled(false);
 		textPeriodo.setBounds(176, 589, 225, 30);
 		add(textPeriodo);
 		textPeriodo.setColumns(10);
@@ -268,18 +270,42 @@ public class PanelConsultarAluno extends JPanel {
 		add(btnConsultar);
 		
 		textCampus = new JTextField();
-		textCampus.setEnabled(false);
+		textCampus.setBackground(SystemColor.window);
 		textCampus.setEditable(false);
 		textCampus.setColumns(10);
 		textCampus.setBounds(176, 546, 684, 30);
 		add(textCampus);
 		
 		textCurso = new JTextField();
-		textCurso.setEnabled(false);
+		textCurso.setBackground(SystemColor.window);
 		textCurso.setEditable(false);
 		textCurso.setColumns(10);
 		textCurso.setBounds(176, 502, 684, 30);
 		add(textCurso);
+		
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textRaCpf.setText("");
+				textRa.setText("");
+				textCpf.setText("");
+				textNome.setText("");
+				textDataNascimento.setText("");
+				textCelular.setText("");
+				textEmail.setText("");
+				textEnd.setText("");
+				textUf.setText("");
+				textMunicipio.setText("");
+				textPeriodo.setText("");
+				textCampus.setText("");
+				textCurso.setText("");
+			}
+		});
+		btnLimpar.setForeground(Color.WHITE);
+		btnLimpar.setFont(new Font("Malgun Gothic", Font.BOLD, 17));
+		btnLimpar.setBackground(Color.DARK_GRAY);
+		btnLimpar.setBounds(108, 662, 169, 49);
+		add(btnLimpar);
 
 	}
 }

@@ -3,6 +3,7 @@ package model;
 public class ItemBoletim {
 	// attrs
 	private String id;
+	private String raAluno;
 	private String idDiciplina;
 	private Double nota;
 	private Integer faltas;
@@ -11,8 +12,9 @@ public class ItemBoletim {
 	public ItemBoletim() {
 	}
 
-	public ItemBoletim(String id, String idDiciplina, Double nota, Integer faltas) {
-		this.id = id;
+	public ItemBoletim(String raAluno, String idDiciplina, Double nota, Integer faltas) {
+		
+		this.raAluno = raAluno;
 		this.idDiciplina = idDiciplina;
 		this.nota = nota;
 		this.faltas = faltas;
@@ -25,6 +27,14 @@ public class ItemBoletim {
 
 	public void setId(String value) {
 		this.id = value;
+	}
+	
+	public String getRaAluno() {
+		return raAluno;
+	}
+
+	public void setRaAluno(String raAluno) {
+		this.raAluno = raAluno;
 	}
 
 	public String getIdDiciplina() {
