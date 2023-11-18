@@ -15,7 +15,8 @@ import util.GenerateBoletim;
 public class AlunoController {
 	// Edita um aluno já criado no banco de dados
 	public void salvar(String ra, String image, String cpf, String nome, String email, String endereco, String telefone,
-			String dataNascimento, String uf, String municipio, String idCurso, String campus, String periodo) throws Exception {
+			String dataNascimento, String uf, String municipio, String idCurso, String campus, String periodo)
+			throws Exception {
 
 		Aluno aluno = new Aluno(ra, image, cpf, nome, email, endereco, telefone, dataNascimento, uf, municipio, idCurso,
 				campus, periodo);
@@ -31,11 +32,14 @@ public class AlunoController {
 
 	// Cria um novo aluno no banco de dados
 	public void cadastrar(String ra, String image, String cpf, String nome, String email, String endereco,
-			String telefone, String dataNascimento, String uf, String municipio, String idCurso, String campus, String periodo)
+			String telefone, String dataNascimento, String uf, String municipio, String idCurso, String campus,
+			String periodo)
 			throws Exception {
 
 		Aluno aluno = new Aluno(ra, image, cpf, nome, email, endereco, telefone,
 				dataNascimento, uf, municipio, idCurso, campus, periodo);
+
+		System.out.println(aluno);
 
 		try {
 			AlunoDAO dao = new AlunoDAO();
@@ -60,11 +64,11 @@ public class AlunoController {
 	}
 
 	public void excluir(String ra) throws Exception {
-		
+
 		try {
 			AlunoDAO dao = new AlunoDAO();
 			ItemBoletimDAO itemDao = new ItemBoletimDAO();
-			dao.deletar(ra);	
+			dao.deletar(ra);
 			itemDao.deleteItem(ra);
 		} catch (Exception err) {
 			throw new Exception(err);
@@ -86,13 +90,14 @@ public class AlunoController {
 		AlunoDAO alunoDao = new AlunoDAO();
 		CursoDAO cursoDao = new CursoDAO();
 		ItemBoletimDAO itemDao = new ItemBoletimDAO();
-				
+
 		Aluno aluno = alunoDao.getAluno(ra);
 		Curso curso = cursoDao.getCurso(aluno.getIdCurso());
-		
+
 		ArrayList<ItemBoletim> itens = itemDao.getAllItemBoletim(ra, aluno.getIdCurso());
-		
-		GenerateBoletim boletim = new GenerateBoletim(aluno.getRa(), aluno.getNome(), curso.getNome(), aluno.getPeriodo(), aluno.getIdCampus(), itens);
+
+		GenerateBoletim boletim = new GenerateBoletim(aluno.getRa(), aluno.getNome(), curso.getNome(),
+				aluno.getPeriodo(), aluno.getIdCampus(), itens);
 	}
 
 	public void editarItemBoletim(String raAluno, String idDiciplina, Double nota, Integer faltas) throws Exception {

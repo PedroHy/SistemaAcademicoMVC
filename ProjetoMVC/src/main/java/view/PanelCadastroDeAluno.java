@@ -300,11 +300,14 @@ public class PanelCadastroDeAluno extends JPanel {
 
 				Curso curso;
 				try {
-					curso = cursoController.getCursoByName(cmbCurso.getSelectedItem().toString());
+					ArrayList<Curso> cursos = cursoController.getAllCursos();
+					curso = cursos.get(cmbCurso.getSelectedIndex() - 1);
+					ArrayList<Campus> campuss = cursoController.getCampus(curso.getId());
 					alunoController.cadastrar(textRA.getText(), "path", textCpf.getText(),
 							textNome.getText(), textEmail.getText(), textEnd.getText(),
 							textCelular.getText(), textDataNascimento.getText(), textUf.getText(),
-							textMunicipio.getText(), curso.getId(), cmbCampus.getSelectedItem().toString(), periodo);
+							textMunicipio.getText(), curso.getId(), campuss.get(cmbCampus.getSelectedIndex()).getId(),
+							periodo);
 
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
