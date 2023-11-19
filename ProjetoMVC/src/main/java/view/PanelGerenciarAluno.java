@@ -18,8 +18,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 import javax.swing.JButton;
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

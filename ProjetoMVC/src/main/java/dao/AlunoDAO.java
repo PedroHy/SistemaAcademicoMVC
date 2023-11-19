@@ -4,30 +4,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import model.Aluno;
-import model.ItemBoletim;
 import util.ConnectionFactory;
 
 public class AlunoDAO {
-	private Connection conn;   
-	private PreparedStatement ps;  
-	private ResultSet rs;  
-	
-	public AlunoDAO () throws Exception{
+	private Connection conn;
+	private PreparedStatement ps;
+	private ResultSet rs;
+
+	public AlunoDAO() throws Exception {
 		try {
 			this.conn = ConnectionFactory.getConnection();
 		} catch (Exception e) {
 			throw new Exception("erro: \n" + e.getMessage());
 		}
 	}
-	
+
 	public void cadastrar(Aluno aluno) throws Exception {
 		try {
 			String SQL = "INSERT INTO ALUNO (ra, imagem, nome, cpf, email, endereco, telefone, dataNascimento, uf, municipio, idCurso, idCampus, periodo) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			
+
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, aluno.getRa());
 			ps.setString(2, aluno.getImagem());
@@ -49,18 +47,18 @@ public class AlunoDAO {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
 	}
-	
-	public Aluno getAluno(String ra) throws Exception{
+
+	public Aluno getAluno(String ra) throws Exception {
 		Aluno aluno = new Aluno();
-		
+
 		try {
 			String SQL = "SELECT * FROM Aluno WHERE ra = ?";
-			
+
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, ra);
 			rs = ps.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				aluno.setRa(ra);
 				aluno.setImagem(rs.getString("imagem"));
 				aluno.setNome(rs.getString("nome"));
@@ -77,17 +75,17 @@ public class AlunoDAO {
 			} else {
 				throw new Exception("Aluno não encontrado");
 			}
-		} catch(SQLException err) {
+		} catch (SQLException err) {
 			throw new Exception("Erro ao consultar dados " + err);
 		}
-		
+
 		return aluno;
 	}
-	
-	public void atualizar(Aluno aluno) throws Exception{
+
+	public void atualizar(Aluno aluno) throws Exception {
 		try {
 			String SQL = "UPDATE Aluno SET imagem = ?, nome = ?, cpf = ?, email = ?, endereco = ?, telefone = ?, dataNascimento = ?, uf = ?, municipio = ?, idCurso = ?, idCampus=?, periodo = ? WHERE ra = ?";
-			
+
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, aluno.getImagem());
 			ps.setString(2, aluno.getNome());
@@ -109,11 +107,11 @@ public class AlunoDAO {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
 	}
-	
-	public void deletar(String ra) throws Exception{
+
+	public void deletar(String ra) throws Exception {
 		try {
 			String SQL = "DELETE FROM Aluno WHERE ra = ?";
-			
+
 			ps = conn.prepareStatement(SQL);
 			ps.setString(1, ra);
 			ps.execute();
@@ -123,6 +121,5 @@ public class AlunoDAO {
 			ConnectionFactory.closeConnection(conn, ps);
 		}
 	}
-	
-	
+
 }

@@ -2,15 +2,12 @@ package controller;
 
 import java.util.ArrayList;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
-
 import dao.CampusDao;
 import dao.CursoDAO;
 import dao.DisciplinaDao;
 import model.Campus;
 import model.Curso;
 import model.Disciplina;
-import model.ItemBoletim;
 
 public class CursoController {
 
