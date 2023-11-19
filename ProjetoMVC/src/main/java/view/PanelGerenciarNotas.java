@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import javax.swing.JTextField;
 
@@ -44,8 +43,8 @@ public class PanelGerenciarNotas extends JPanel {
 	private JTextField textFaltas;
 	private JButton btnGerarBoletim;
 	private JButton btnSalvar;
-	private JComboBox<Object> comboDisciplina;
-	private JComboBox comboSemestre;
+	private JComboBox<Disciplina> comboDisciplina;
+	private JComboBox<Integer> comboSemestre;
 	private JButton btnPesquisar;
 	private JButton btnLimpar;
 
@@ -175,32 +174,20 @@ public class PanelGerenciarNotas extends JPanel {
 		btnSalvar.setBounds(766, 701, 156, 49);
 		add(btnSalvar);
 
-		comboDisciplina = new JComboBox<Object>();
+		comboDisciplina = new JComboBox<Disciplina>();
 		comboDisciplina.setBackground(Color.WHITE);
 		comboDisciplina.setToolTipText("Selecione a Disciplina . . .");
 		comboDisciplina.setBounds(200, 275, 722, 33);
 		comboDisciplina.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CursoController cursoController = new CursoController();
 				AlunoController alunoController = new AlunoController();
 
 				try {
 					Aluno aluno = alunoController.consultar(textRaSearch.getText());
-
-					ArrayList<Disciplina> Alldisciplinas = cursoController.getDisciplinas(aluno.getIdCurso());
-					ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
-
-					for (Disciplina disciplina : Alldisciplinas) {
-						if (disciplina.getSemestre() == comboSemestre.getSelectedIndex() + 1) {
-							disciplinas.add(disciplina);
-						}
-					}
-
-					Disciplina disciplina = disciplinas.get(comboDisciplina.getSelectedIndex());
+					Disciplina disciplina = (Disciplina) comboDisciplina.getSelectedItem();
 
 					ItemBoletim item = alunoController.consultarItemBoletim(aluno.getRa(), disciplina.getId());
-
 					textFaltas.setText(item.getFaltas().toString());
 					textNota.setText(item.getNota().toString());
 				} catch (Exception e1) {
@@ -210,8 +197,8 @@ public class PanelGerenciarNotas extends JPanel {
 		});
 		add(comboDisciplina);
 
-		comboSemestre = new JComboBox();
-		comboSemestre.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6" }));
+		comboSemestre = new JComboBox<Integer>();
+		comboSemestre.setModel(new DefaultComboBoxModel<Integer>(new Integer[] { 1, 2, 3, 4, 5, 6 }));
 		comboSemestre.setBounds(760, 218, 162, 33);
 		comboSemestre.addActionListener(new ActionListener() {
 			@Override
@@ -221,31 +208,21 @@ public class PanelGerenciarNotas extends JPanel {
 
 				try {
 					Aluno aluno = alunoController.consultar(textRaSearch.getText());
+					textNome.setText(aluno.getNome());
+
 					Curso curso = cursoController.getCurso(aluno.getIdCurso());
+					textCurso.setText(curso.getNome());
 
-					ArrayList<Disciplina> Alldisciplinas = cursoController.getDisciplinas(aluno.getIdCurso());
-					ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
+					// Transforma o array de disciplinas em um Array padrão e passa como model do
+					// comboDisciplina
+					ArrayList<Disciplina> arrayD = cursoController.getDisciplinas(aluno.getIdCurso(),
+							comboSemestre.getSelectedIndex() + 1);
+					Disciplina[] disciplinas = new Disciplina[arrayD.size()];
+					arrayD.toArray(disciplinas);
 
-					for (Disciplina disciplina : Alldisciplinas) {
-						if (disciplina.getSemestre() == comboSemestre.getSelectedIndex() + 1) {
-							disciplinas.add(disciplina);
-						}
-					}
-
-					String[] modelDisciplina = new String[disciplinas.size()];
-
-					for (int c = 0; c < disciplinas.size(); c++) {
-						modelDisciplina[c] = disciplinas.get(c).getNome();
-					}
-
-					comboDisciplina.setModel(new DefaultComboBoxModel<Object>(modelDisciplina));
-
-					Disciplina disciplina = disciplinas.get(comboDisciplina.getSelectedIndex());
-
-					ItemBoletim item = alunoController.consultarItemBoletim(aluno.getRa(), disciplina.getId());
-
-					textFaltas.setText(item.getFaltas().toString());
-					textNota.setText(item.getNota().toString());
+					comboDisciplina.setModel(new DefaultComboBoxModel<Disciplina>(disciplinas));
+					// Ativa o evento do comboDisciplina
+					comboDisciplina.setSelectedIndex(0);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -256,42 +233,8 @@ public class PanelGerenciarNotas extends JPanel {
 		btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CursoController cursoController = new CursoController();
-				AlunoController alunoController = new AlunoController();
-
-				try {
-					Aluno aluno = alunoController.consultar(textRaSearch.getText());
-					Curso curso = cursoController.getCurso(aluno.getIdCurso());
-
-					textNome.setText(aluno.getNome());
-					textCurso.setText(curso.getNome());
-
-					ArrayList<Disciplina> Alldisciplinas = cursoController.getDisciplinas(aluno.getIdCurso());
-					ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
-
-					for (Disciplina disciplina : Alldisciplinas) {
-						if (disciplina.getSemestre() == comboSemestre.getSelectedIndex() + 1) {
-							disciplinas.add(disciplina);
-						}
-					}
-
-					String[] modelDisciplina = new String[disciplinas.size()];
-
-					for (int c = 0; c < disciplinas.size(); c++) {
-						modelDisciplina[c] = disciplinas.get(c).getNome();
-					}
-
-					comboDisciplina.setModel(new DefaultComboBoxModel<Object>(modelDisciplina));
-
-					Disciplina disciplina = disciplinas.get(comboDisciplina.getSelectedIndex());
-
-					ItemBoletim item = alunoController.consultarItemBoletim(aluno.getRa(), disciplina.getId());
-
-					textFaltas.setText(item.getFaltas().toString());
-					textNota.setText(item.getNota().toString());
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+				// Faz com que ative o evento do comboSemestre
+				comboSemestre.setSelectedIndex(0);
 			}
 		});
 		btnPesquisar.setForeground(Color.WHITE);

@@ -2,12 +2,15 @@ package controller;
 
 import java.util.ArrayList;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+
 import dao.CampusDao;
 import dao.CursoDAO;
 import dao.DisciplinaDao;
 import model.Campus;
 import model.Curso;
 import model.Disciplina;
+import model.ItemBoletim;
 
 public class CursoController {
 
@@ -51,9 +54,16 @@ public class CursoController {
 		return dao.getDiciplinas(cursoID);
 	}
 
+	public ArrayList<Disciplina> getDisciplinas(String cursoID, Integer semestre) throws Exception {
+		CursoDAO dao = new CursoDAO();
+
+		ArrayList<Disciplina> disciplinas = dao.getDiciplinas(cursoID);
+		disciplinas.removeIf(d -> !(d.getSemestre() == semestre));
+		return disciplinas;
+	}
+
 	public Disciplina getDisciplina(String nome) throws Exception {
 		DisciplinaDao dao = new DisciplinaDao();
 		return dao.getDisciplinaByName(nome);
 	}
-
 }
