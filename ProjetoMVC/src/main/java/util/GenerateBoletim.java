@@ -1,6 +1,8 @@
 package util;
 
+import java.awt.Desktop;
 import java.io.*;
+import java.net.URI;
 import java.util.ArrayList;
 
 import dao.DisciplinaDao;
@@ -10,14 +12,12 @@ import model.ItemBoletim;
 public class GenerateBoletim{
      
      public GenerateBoletim(String ra, String nome, String curso, String periodo, String campus, ArrayList<ItemBoletim> itens) throws Exception {
-    	 String fileName = ra+nome;
-    	 OutputStream os = new FileOutputStream("boletins/"+fileName+".html"); // nome do arquivo que será escrito
+    	 String filePath = "boletins/"+ra+nome+".html";
+    	 OutputStream os = new FileOutputStream(filePath); // nome do arquivo que será escrito
     	 Writer wr = new OutputStreamWriter(os); // criação de um escritor
     	 BufferedWriter br = new BufferedWriter(wr); // adiciono a um escritor de buffer
     	 
     	 DisciplinaDao dao = new DisciplinaDao();
-    	 
-    	 ArrayList<Disciplina> diciplinas = dao.getDisciplinas(curso);
 
     	 //itemBoletim
     	 
@@ -29,67 +29,71 @@ public class GenerateBoletim{
     	 ArrayList<String> semester6 = new ArrayList<String>();
     	 
     	 //filtrar Diciplinas por semestre - não ta funcionando
-    	 for(Disciplina disciplina : diciplinas) {
-    		 for(ItemBoletim item : itens) {
-    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 1) {
-    				 semester1.add("<div class=\"materia\">\r\n"
-    			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
-    			    	 		+ "  <div>\r\n"
-    			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
-    			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
-    			    	 		+ "  </div>\r\n"
-    			    	 		+ "</div>");
-    			}
-    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 2) {
-    				semester2.add("<div class=\"materia\">\r\n"
-			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
-			    	 		+ "  <div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
-			    	 		+ "  </div>\r\n"
-			    	 		+ "</div>");
-    			}
-    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 3) {
-    				semester3.add("<div class=\"materia\">\r\n"
-			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
-			    	 		+ "  <div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
-			    	 		+ "  </div>\r\n"
-			    	 		+ "</div>");
-    			}
-    			if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 4) {
-    				semester4.add("<div class=\"materia\">\r\n"
-			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
-			    	 		+ "  <div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
-			    	 		+ "  </div>\r\n"
-			    	 		+ "</div>");
-    			}
-   				if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 5) {
-   					semester5.add("<div class=\"materia\">\r\n"
-			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
-			    	 		+ "  <div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
-			    	 		+ "  </div>\r\n"
-			    	 		+ "</div>");
-   				}
-   				if(item.getIdDiciplina() == disciplina.getId() && disciplina.getSemestre() == 6) {
-   					semester6.add("<div class=\"materia\">\r\n"
-			    	 		+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
-			    	 		+ "  <div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
-			    	 		+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
-			    	 		+ "  </div>\r\n"
-			    	 		+ "</div>");	 
-    			}
-    		 }
+    	 
+    	 for(ItemBoletim item : itens) {
+    		 Disciplina disciplina = dao.getDisciplina(item.getIdDiciplina());
+    		 if(disciplina.getSemestre() == 1) {  					 
+ 				semester1.add("<div class=\"materia\">\r\n"
+ 						+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+ 						+ "  <div>\r\n"
+ 						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+ 						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+ 						+ "  </div>\r\n"
+ 						+ "</div>");
+ 				 
+ 			 }
+    		 if(disciplina.getSemestre() == 2) {  					 
+  				semester2.add("<div class=\"materia\">\r\n"
+  						+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+  						+ "  <div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+  						+ "  </div>\r\n"
+  						+ "</div>");
+  				 
+  			 }
+    		 if(disciplina.getSemestre() == 3) {  					 
+  				semester3.add("<div class=\"materia\">\r\n"
+  						+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+  						+ "  <div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+  						+ "  </div>\r\n"
+  						+ "</div>");
+  				 
+  			 }
+    		 if(disciplina.getSemestre() == 4) {  					 
+  				semester4.add("<div class=\"materia\">\r\n"
+  						+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+  						+ "  <div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+  						+ "  </div>\r\n"
+  						+ "</div>");
+  				 
+  			 }
+    		 if(disciplina.getSemestre() == 5) {  					 
+  				semester5.add("<div class=\"materia\">\r\n"
+  						+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+  						+ "  <div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+  						+ "  </div>\r\n"
+  						+ "</div>");
+  				 
+  			 }
+    		 if(disciplina.getSemestre() == 6) {  					 
+  				semester6.add("<div class=\"materia\">\r\n"
+  						+ "  <span class=\"materia-name\">"+ disciplina.getNome()+"</span>\r\n"
+  						+ "  <div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Nota:</span><span>"+item.getNota()+"/</span></div>\r\n"
+  						+ "     <div class=\"materia-item\"><span class=\"subtitle\">Faltas:</span><span>"+item.getFaltas()+"</span></div>\r\n"
+  						+ "  </div>\r\n"
+  						+ "</div>");
+  				 
+  			 }
     	 }
-    	 
-    	 
-    	
+
 	     br.write(header()); //ta escrevendo o header e o style do html
 	     
 	     //primeira div que contem as informacoes do aluno
@@ -106,7 +110,6 @@ public class GenerateBoletim{
 	     		+ "            </div>\r\n"
 	     		+ "        </div>\r\n"
 	     		+ "    </div>");
-	     
 	     
 	     //div da tabela de semestres
 	     br.write(" <div class=\"notas\">\r\n"
@@ -195,6 +198,11 @@ public class GenerateBoletim{
 	     //	Ferchando html
 	     br.write(end());
 	     br.close();
+	     
+	     File file = new File(filePath);
+	     Desktop desk = Desktop.getDesktop();
+	     URI url = new URI(file.toURI().toString());
+	     desk.browse(url);
      }
      
      public String header() {
@@ -286,7 +294,7 @@ public class GenerateBoletim{
  	     		+ "\r\n"
  	     		+ "            border-radius: 10px;\r\n"
  	     		+ "\r\n"
- 	     		+ "            background-color: rgb(245, 245, 245);\r\n"
+ 	     		+ "            background-color: rgb(134, 134, 134);\r\n"
  	     		+ "\r\n"
  	     		+ "            display: flex;\r\n"
  	     		+ "            flex-direction: column;\r\n"

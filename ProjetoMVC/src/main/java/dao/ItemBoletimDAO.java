@@ -77,7 +77,7 @@ public class ItemBoletimDAO {
 			while (rs.next()) {
 				ItemBoletim item = new ItemBoletim();
 				item.setRaAluno(raAluno);
-				item.setIdDiciplina(idDisciplina);
+				item.setIdDiciplina(rs.getString("idDisciplina"));
 				item.setFaltas(rs.getInt("faltas"));
 				item.setNota(rs.getDouble("nota"));
 

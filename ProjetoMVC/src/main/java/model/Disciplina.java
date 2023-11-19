@@ -39,20 +39,12 @@ public class Disciplina {
         this.idCurso = value;
     }
 
-    public Integer getSemestre() {
-        return semestre;
-    }
+	public Integer getSemestre() {
+		return semestre;
+	}
 
-    public void setSemestre(Integer semestre) {
-        this.semestre = semestre;
-    }
-
-    @Override
-    public String toString() {
-        return this.nome;
-    }
-
-    public Integer setSemestre() {
-        return null;
-    }
+	public void setSemestre(Integer semestre) {
+		this.semestre = semestre;
+	}
+    
 }

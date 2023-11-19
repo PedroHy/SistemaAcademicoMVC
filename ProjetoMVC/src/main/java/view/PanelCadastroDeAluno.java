@@ -55,7 +55,7 @@ public class PanelCadastroDeAluno extends JPanel {
 	private JRadioButton rdbVespertino;
 	private JRadioButton rdbNoturno;
 	private JButton btnCadastrar;
-	private JComboBox<Campus> cmbCampus;
+	private JComboBox<Curso> cmbCampus;
 	private JComboBox<Curso> cmbCurso;
 
 	// Controllers
@@ -228,31 +228,46 @@ public class PanelCadastroDeAluno extends JPanel {
 		rdbNoturno.setBounds(407, 532, 109, 23);
 		add(rdbNoturno);
 
-		cmbCurso = new JComboBox<Curso>();
+		cmbCurso = new JComboBox();
 		cmbCurso.setBounds(176, 437, 670, 33);
 		// Pegar todos os cursos do banco de dados
-		try {
-			ArrayList<Curso> arrayC = cursoController.getAllCursos();
-			Curso[] cursos = new Curso[arrayC.size()];
-			arrayC.toArray(cursos);
+		ArrayList<String> nomeCursos = new ArrayList<String>();
 
-			cmbCurso.setModel(new DefaultComboBoxModel<Curso>(cursos));
-			cmbCurso.setSelectedIndex(0);
+		try {
+			ArrayList<Curso> cursos = cursoController.getAllCursos();
+			nomeCursos.add("SELECIONE UMA OPÇÂO");
+			for (int i = 0; i < cursos.size(); i++) {
+				nomeCursos.add(cursos.get(i).getNome());
+			}
+
 		} catch (Exception err) {
 			// Erro
 		}
+
+		// Evento que ao escolher um curso, ele mostra os campus disponiveis
+		cmbCurso.setModel(new DefaultComboBoxModel(nomeCursos.toArray()));
 		cmbCurso.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Curso curso = (Curso) cmbCurso.getSelectedItem();
+				int selected = cmbCurso.getSelectedIndex() - 1;
+				if (selected <= -1) {
+					cmbCampus.setEnabled(false);
+					cmbCampus.setModel(new DefaultComboBoxModel(new String[] { "SELECIONE UM CURSO PRIMEIRO" }));
+					return;
+				}
 
 				try {
-					ArrayList<Campus> arrayCampus = cursoController.getCampus(curso.getId());
-					Campus[] campus = new Campus[arrayCampus.size()];
-					arrayCampus.toArray(campus);
+					ArrayList<Curso> cursos = cursoController.getAllCursos();
+					ArrayList<Campus> campuss = cursoController.getCampus(cursos.get(selected).getId());
 
-					cmbCampus.setModel(new DefaultComboBoxModel<Campus>((Campus[]) arrayCampus.toArray()));
-					cmbCampus.setSelectedIndex(0);
+					ArrayList<String> campusNome = new ArrayList<String>();
+					for (int i = 0; i < campuss.size(); i++) {
+						campusNome.add(campuss.get(i).getNome());
+					}
+
+					System.out.print(campusNome);
+
+					cmbCampus.setModel(new DefaultComboBoxModel(campusNome.toArray()));
 				} catch (Exception err) {
 					System.out.print(err);
 					// Erro
@@ -264,9 +279,10 @@ public class PanelCadastroDeAluno extends JPanel {
 		add(cmbCurso);
 
 		// Começa desativado pois o usuário precisa selecionar um curso primeiro
-		cmbCampus = new JComboBox<Campus>();
+		cmbCampus = new JComboBox();
 		cmbCampus.setBounds(176, 481, 670, 33);
 		cmbCampus.setEnabled(false);
+		cmbCampus.setModel(new DefaultComboBoxModel(new String[] { "SELECIONE UM CURSO PRIMEIRO" }));
 		add(cmbCampus);
 
 		btnCadastrar = new JButton("Cadastrar");
@@ -282,13 +298,15 @@ public class PanelCadastroDeAluno extends JPanel {
 					periodo = "Matutino";
 				}
 
+				Curso curso;
 				try {
-					Curso curso = (Curso) cmbCurso.getSelectedItem();
-					Campus campus = (Campus) cmbCampus.getSelectedItem();
+					ArrayList<Curso> cursos = cursoController.getAllCursos();
+					curso = cursos.get(cmbCurso.getSelectedIndex() - 1);
+					ArrayList<Campus> campuss = cursoController.getCampus(curso.getId());
 					alunoController.cadastrar(textRA.getText(), "path", textCpf.getText(),
 							textNome.getText(), textEmail.getText(), textEnd.getText(),
 							textCelular.getText(), textDataNascimento.getText(), textUf.getText(),
-							textMunicipio.getText(), curso.getId(), campus.getId(),
+							textMunicipio.getText(), curso.getId(), campuss.get(cmbCampus.getSelectedIndex()).getId(),
 							periodo);
 
 				} catch (Exception e1) {

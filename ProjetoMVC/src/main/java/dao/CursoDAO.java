@@ -91,7 +91,7 @@ public class CursoDAO {
 			String SQL = "SELECT * FROM Disciplina WHERE idCurso=?";
 
 			ps = conn.prepareStatement(SQL);
-			ps.setString(1, "0001");
+			ps.setString(1, idCurso);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Disciplina disciplina = new Disciplina();

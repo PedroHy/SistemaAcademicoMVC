@@ -96,8 +96,9 @@ public class AlunoController {
 
 		ArrayList<ItemBoletim> itens = itemDao.getAllItemBoletim(ra, aluno.getIdCurso());
 
-		GenerateBoletim boletim = new GenerateBoletim(aluno.getRa(), aluno.getNome(), curso.getNome(),
+		GenerateBoletim boletim = new GenerateBoletim(aluno.getRa(), aluno.getNome(), curso.getId(),
 				aluno.getPeriodo(), aluno.getIdCampus(), itens);
+		
 	}
 
 	public void editarItemBoletim(String raAluno, String idDiciplina, Double nota, Integer faltas) throws Exception {
