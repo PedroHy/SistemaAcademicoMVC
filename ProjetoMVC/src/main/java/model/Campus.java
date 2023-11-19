@@ -37,4 +37,9 @@ public class Campus {
     public void setIdCursos(String idCursos) {
         this.idCursos = idCursos;
     }
+
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 }
