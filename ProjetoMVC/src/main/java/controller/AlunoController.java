@@ -12,6 +12,12 @@ import model.Disciplina;
 import model.ItemBoletim;
 import util.GenerateBoletim;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class AlunoController {
 	// Edita um aluno já criado no banco de dados
 	public void salvar(String ra, String image, String cpf, String nome, String email, String endereco, String telefone,
@@ -123,4 +129,18 @@ public class AlunoController {
 			throw new Exception(err);
 		}
 	}
+
+	private void saveImage(String pathOrigem, String imageName){
+		File origem = new File(pathOrigem);
+		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(origem));
+		
+		File destino = new File("imagens/"+imageName);
+		FileOutputStream fos = new FileOutputStream(destino);
+		
+		int count = 0;
+		byte[] bytes = new byte[1024];
+		while((count = bis.read(bytes))>0) {
+			fos.write(bytes, 0, count);
+		}
+	}	
 }
